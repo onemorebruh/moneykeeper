@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">money keeper</string>
+    <string name="categories">Категории</string>
+    <string name="transactions">Транцакции</string>
+    <string name="home">Главная</string>
+</resources>
