@@ -5,55 +5,59 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.moneykeeper.database.CategoriesDao
+import com.example.moneykeeper.database.Database
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CategoriesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CategoriesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    var addButton: FloatingActionButton? = null
+    private var listLayout: LinearLayout? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_categories, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CategoriesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CategoriesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        addButton = view!!.findViewById(R.id.addButton)
+        listLayout = view.findViewById<LinearLayout>(R.id.listLayout)
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO){
+
+                var db = Room.databaseBuilder(
+                    requireContext(),
+                    Database::class.java, "categories"
+                ).build()
+
+                categoriesDao = db.CategoriesDao()
+                var categories = categoriesDao!!.getAll()
+                categories.forEach {
+                    val textView = TextView(context)
+                    textView.text = it.name
+                    withContext(Dispatchers.Main){
+                        listLayout!!.addView(textView)
+                    }
                 }
             }
+        }
+
+        addButton!!.setOnClickListener {
+            findNavController().navigate(R.id.action_categoriesFragment_to_addCategoryFragment)
+        }
+
+        return view
     }
+
+    companion object{
+        var categoriesDao: CategoriesDao? = null
+    }
+
 }

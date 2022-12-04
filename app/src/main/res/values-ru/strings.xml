@@ -4,4 +4,6 @@
     <string name="categories">Категории</string>
     <string name="transactions">Транцакции</string>
     <string name="home">Главная</string>
+    <string name="categoryName">название категории</string>
+    <string name="saveCategory">сохранить категорию</string>
 </resources>
