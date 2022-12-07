@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -17,9 +18,10 @@ class MainActivity : AppCompatActivity() {
         val navigationController = hostFragment.navController
 
         bottomNavigationView.setupWithNavController(navigationController)
+        setupActionBarWithNavController(navigationController)
     }
 
-    override fun onSupportNavigateUp(): Boolean {//TODO make navigate up button
+    override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragmentContainer)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
