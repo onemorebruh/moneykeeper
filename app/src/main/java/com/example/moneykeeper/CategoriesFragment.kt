@@ -5,49 +5,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.moneykeeper.database.CategoriesDao
-import com.example.moneykeeper.database.Database
+import com.example.moneykeeper.database.CategoriesViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class CategoriesFragment : Fragment() {
 
-    var addButton: FloatingActionButton? = null
-    private var listLayout: LinearLayout? = null
+    private var addButton: FloatingActionButton? = null
+    private var listView: RecyclerView? = null
+    private lateinit var myCategoriesViewModel: CategoriesViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_categories, container, false)
 
+        val adapter = CategoriesListAdapter()
         addButton = view!!.findViewById(R.id.addButton)
-        listLayout = view.findViewById<LinearLayout>(R.id.listLayout)
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO){
+        //recycler view
+        listView = view.findViewById(R.id.listView)
+        listView!!.adapter = adapter
+        listView!!.layoutManager = LinearLayoutManager(requireContext())
 
-                var db = Room.databaseBuilder(
-                    requireContext(),
-                    Database::class.java, "categories"
-                ).build()
-
-                categoriesDao = db.CategoriesDao()
-                var categories = categoriesDao!!.getAll()
-                categories.forEach {
-                    val textView = TextView(context)
-                    textView.text = it.name
-                    withContext(Dispatchers.Main){
-                        listLayout!!.addView(textView)
-                    }
-                }
-            }
-        }
+        //view model
+        myCategoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
+        myCategoriesViewModel.readAllData.observe(viewLifecycleOwner, Observer{ category ->
+            adapter.setData(category)
+        })
 
         addButton!!.setOnClickListener {
             findNavController().navigate(R.id.action_categoriesFragment_to_addCategoryFragment)
@@ -55,6 +45,7 @@ class CategoriesFragment : Fragment() {
 
         return view
     }
+
 
     companion object{
         var categoriesDao: CategoriesDao? = null
