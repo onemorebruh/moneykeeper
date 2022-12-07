@@ -1,13 +1,14 @@
-package com.example.moneykeeper
+package com.example.moneykeeper.database
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moneykeeper.database.Category
+import com.example.moneykeeper.R
 
 class CategoriesListAdapter(): RecyclerView.Adapter<CategoriesListAdapter.CategoriesListHolder>() {
+
     private var categories = emptyList<Category>()
 
     class CategoriesListHolder(itemView: View): RecyclerView.ViewHolder(itemView){

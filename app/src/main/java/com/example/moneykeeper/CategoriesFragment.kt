@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneykeeper.database.CategoriesDao
+import com.example.moneykeeper.database.CategoriesListAdapter
 import com.example.moneykeeper.database.CategoriesViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 

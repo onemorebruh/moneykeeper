@@ -52,7 +52,7 @@ class addCategoryFragment : Fragment() {
         if (inputCheck(name)){
             //insert
             myCategoriesViewModel.addCategory(category)
-            Toast.makeText(requireContext(), "success: ${category.uid}th category added", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "success: ${category.name} category added", Toast.LENGTH_LONG).show()
         }else{
             Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
         }

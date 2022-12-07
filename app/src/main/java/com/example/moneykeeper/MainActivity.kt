@@ -18,4 +18,9 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navigationController)
     }
+
+    override fun onSupportNavigateUp(): Boolean {//TODO make navigate up button
+        val navController = findNavController(R.id.fragmentContainer)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
 }
