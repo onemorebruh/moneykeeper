@@ -5,9 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Category::class], version = 1)
+@Database(entities = [Category::class, Transfer::class], version = 2)
 abstract class Database : RoomDatabase() {
     abstract fun CategoriesDao(): CategoriesDao
+
+    abstract fun TransferDao(): TransferDao
 
     companion object{
         @Volatile

@@ -6,4 +6,8 @@
     <string name="home">Главная</string>
     <string name="categoryName">название категории</string>
     <string name="saveCategory">сохранить категорию</string>
+    <string name="addIncomeButton">добавить доход</string>
+    <string name="addExpenseButton">добавить расход</string>
+    <string name="transactionDescription">описание транзакции</string>
+    <string name="transactionValue">значение</string>
 </resources>
