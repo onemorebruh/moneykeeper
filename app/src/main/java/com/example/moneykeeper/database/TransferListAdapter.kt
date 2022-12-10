@@ -28,8 +28,8 @@ class TransferListAdapter(): RecyclerView.Adapter<TransferListAdapter.TransferLi
     override fun onBindViewHolder(holder: TransferListHolder, position: Int) {
         holder.transferName.text = transfers[position].name
         holder.transferValue.text = transfers[position].value.toString()
-        if (Int.pasreInt(transfers[position].value) > 0){
-            holder.transferValue.setBackgroundColor(Color.parseColor("#D33535"))
+        if (transfers[position].value.toInt() > 0){
+            holder.transferValue.setTextColor(Color.parseColor("#D33535"))
         }
         //todo paint transferView to category's color
     }

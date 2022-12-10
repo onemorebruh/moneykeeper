@@ -24,4 +24,9 @@ class CategoriesViewModel(application: Application): AndroidViewModel(applicatio
             repository.addCategory(category)
         }
     }
+    fun getByName(name: String){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.getByName(name)
+        }
+    }
 }

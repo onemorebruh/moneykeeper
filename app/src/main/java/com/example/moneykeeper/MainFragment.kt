@@ -3,64 +3,114 @@ package com.example.moneykeeper
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.moneykeeper.database.CategoriesViewModel
-import com.example.moneykeeper.database.Transfer
-import com.example.moneykeeper.database.TransferViewModel
+import com.example.moneykeeper.database.*
 
 class MainFragment : Fragment() {
 
     private var incomeButton: Button? = null
     private var expenseButton: Button? = null
     private lateinit var myTransferViewModel: TransferViewModel
+    private lateinit var myCategoriesViewModel: CategoriesViewModel
+    private var selectedCategory: Category? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         incomeButton = view.findViewById(R.id.addIncomeButton)
         expenseButton = view.findViewById(R.id.addExpenseButton)
 
+        var categoryNames: MutableList<String> = mutableListOf<String>()
+        var categories: MutableList<Category> = mutableListOf<Category>()
+
         myTransferViewModel = ViewModelProvider(this)[TransferViewModel::class.java]
+        myCategoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
 
-        incomeButton!!.setOnClickListener {
+
+        expenseButton!!.setOnClickListener {//TODO fix border radius
             val dialog = AlertDialog.Builder(context)
-            val dialogView = layoutInflater.inflate(R.layout.income_dialog, null)
+            val dialogView = layoutInflater.inflate(R.layout.expense_dialog, null)
             val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionName)
-            val spinnerIncomes= dialogView.findViewById<Spinner>(R.id.spinnerIncomes)
+            val spinnerExprense= dialogView.findViewById<Spinner>(R.id.spinnerIncomes)
             val editValue = dialogView.findViewById<EditText>(R.id.editTextNumber)
-            val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitIncomeButton)
+            val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitExpenseButton)
+            //spinner set array of values
+            val spinnerArrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.text_view, categoryNames)
 
-            submitIncomeButton.setOnClickListener {
+            //get list of categories
+            myCategoriesViewModel.readAllData.observe(viewLifecycleOwner,
+                Observer<List<Category?>> { terms ->
+                    for (term in terms) {
+                        categoryNames.add(term!!.name)
+                        categories.add(term)
+                    }
+
+                    //notifyDataSetChanged after update termsList variable here
+                    spinnerArrayAdapter.notifyDataSetChanged()
+                })
+
+            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            spinnerExprense.adapter = spinnerArrayAdapter
+            spinnerExprense.onItemSelectedListener = object :
+
+                AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    selectedCategory = categories[p2]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    //do nothing
+                }
 
             }
+            //TODO make it return selected category to selected category variable
+            dialog.setView(dialogView)
+            val alertDialog = dialog.create()
+            submitIncomeButton.setOnClickListener {
+                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, editValue.text.toString())
+                alertDialog.dismiss()
+            }
+            alertDialog.show()
+
+
+
+
 
         }
         return view
     }
 
-    private fun insertTransaction(transactionName: String, income: String, value: String){
-        var transfer = Transfer(
+    private fun insertTransaction(transactionName: String, category: Category, value: String){
+        var actualValue: String? = null
+        //check for minus
+        if (value.toInt() < 0){
+            actualValue = value
+        } else {
+            actualValue = ( value.toInt() * -1 ).toString()
+        }
+
+        val transfer = Transfer(
             0,
             transactionName,
             value,
-            income,
+            category.uid.toString(),//here is String but required tu be an Int
             null,//TODO read color from categories
         )
-        if (inputCheck(transactionName, income, value)){
+        if (inputCheck(transactionName, category, value)){
             myTransferViewModel.addTransfer(transfer)
-            Toast.makeText(requireContext(), "success: ${transfer.name} category added", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
         }else{
             Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
         }
     }
-    private fun inputCheck(name: String, income: String, value: String): Boolean {//TODO add color and icon when user is able to choose them
-        return !(TextUtils.isEmpty(name)) && !(TextUtils.isEmpty(income)) && !(TextUtils.isEmpty(value))
+    private fun inputCheck(name: String, category: Category, value: String): Boolean {
+        return !(TextUtils.isEmpty(name)) && !(TextUtils.isEmpty(category.uid.toString())) && !(TextUtils.isEmpty(value))
     }
 }
