@@ -1,4 +1,4 @@
-package com.example.moneykeeper
+package com.example.moneykeeper.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.moneykeeper.R
 import com.example.moneykeeper.database.*
 
 class MainFragment : Fragment() {
@@ -36,12 +37,13 @@ class MainFragment : Fragment() {
         expenseButton!!.setOnClickListener {//TODO fix border radius
             val dialog = AlertDialog.Builder(context)
             val dialogView = layoutInflater.inflate(R.layout.expense_dialog, null)
-            val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionName)
-            val spinnerExprense= dialogView.findViewById<Spinner>(R.id.spinnerIncomes)
-            val editValue = dialogView.findViewById<EditText>(R.id.editTextNumber)
-            val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitExpenseButton)
+            val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionNameExpense)
+            val spinnerExprense= dialogView.findViewById<Spinner>(R.id.spinnerExpenses)
+            val editValue = dialogView.findViewById<EditText>(R.id.editTextNumberExpenses)
+            val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitExpensesButton)
             //spinner set array of values
-            val spinnerArrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.text_view, categoryNames)
+            val spinnerArrayAdapter = ArrayAdapter<String>(requireContext(),
+                R.layout.text_view, categoryNames)
 
             //get list of categories
             myCategoriesViewModel.readAllData.observe(viewLifecycleOwner,
@@ -84,6 +86,49 @@ class MainFragment : Fragment() {
 
 
         }
+
+        incomeButton!!.setOnClickListener {
+            val dialog = AlertDialog.Builder(context)
+            val dialogView = layoutInflater.inflate(R.layout.income_dialog, null)
+            val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionNameIncome)
+            val spinnerIncome= dialogView.findViewById<Spinner>(R.id.spinnerIncomes)
+            val editValue = dialogView.findViewById<EditText>(R.id.editTextNumberIncomes)
+            val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitIncomesButton)
+            //list of categories
+            val categories = arrayOf("salary", "investments")/* TODO rebuild database so there will be no conflict between categories and incomes(there is no incomes now but Transfers have only one field for foreign key */
+            //spinner set array of values
+            val spinnerArrayAdapter = ArrayAdapter<String>(requireContext(),
+                R.layout.text_view, categories)
+
+            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            spinnerIncome.adapter = spinnerArrayAdapter
+            spinnerIncome.onItemSelectedListener = object :
+
+                AdapterView.OnItemSelectedListener{// TODO fix it
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    //selectedCategory = categories[p2]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    //do nothing
+                }
+
+            }
+            //TODO make it return selected category to selected category variable
+            dialog.setView(dialogView)
+            val alertDialog = dialog.create()
+            submitIncomeButton.setOnClickListener {
+                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, editValue.text.toString())
+                alertDialog.dismiss()
+            }
+            alertDialog.show()
+
+
+
+
+
+        }
         return view
     }
 
@@ -101,6 +146,7 @@ class MainFragment : Fragment() {
             transactionName,
             value,
             category.uid.toString(),//here is String but required tu be an Int
+            null,
             null,//TODO read color from categories
         )
         if (inputCheck(transactionName, category, value)){

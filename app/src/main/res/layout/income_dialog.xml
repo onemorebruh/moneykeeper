@@ -7,7 +7,7 @@
     android:background="@drawable/color_bg">
 
     <EditText
-        android:id="@+id/editTextTransactionNameExpense"
+        android:id="@+id/editTextTransactionNameIncome"
         android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinnerExpenses"
+        android:id="@+id/spinnerIncomes"
         android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -35,10 +35,10 @@
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTransactionNameExpense" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTransactionNameIncome" />
 
     <EditText
-        android:id="@+id/editTextNumberExpenses"
+        android:id="@+id/editTextNumberIncomes"
         android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
@@ -52,10 +52,10 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerExpenses" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerIncomes" />
 
     <Button
-        android:id="@+id/submitExpensesButton"
+        android:id="@+id/submitIncomesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="155dp"
@@ -64,9 +64,9 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/color_bg"
         android:padding="10dp"
-        android:text="@string/addExpenseButton"
+        android:text="@string/addIncomeButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberExpenses" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberIncomes" />
 </androidx.constraintlayout.widget.ConstraintLayout>

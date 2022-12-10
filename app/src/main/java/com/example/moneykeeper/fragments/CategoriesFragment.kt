@@ -1,4 +1,4 @@
-package com.example.moneykeeper
+package com.example.moneykeeper.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moneykeeper.R
 import com.example.moneykeeper.database.CategoriesDao
 import com.example.moneykeeper.database.CategoriesListAdapter
 import com.example.moneykeeper.database.CategoriesViewModel

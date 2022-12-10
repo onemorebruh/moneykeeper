@@ -1,4 +1,4 @@
-package com.example.moneykeeper
+package com.example.moneykeeper.fragments
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,16 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.moneykeeper.R
 import com.example.moneykeeper.database.CategoriesViewModel
 import com.example.moneykeeper.database.Category
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class addCategoryFragment : Fragment() {
 
@@ -27,7 +23,7 @@ class addCategoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_add_category, container, false)
 
-        myCategoriesViewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
+        myCategoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
 
         val saveCategoryButton = view.findViewById<Button>(R.id.saveCategoryButton)
         val categoryName = view.findViewById<EditText>(R.id.categoryName)
@@ -43,7 +39,7 @@ class addCategoryFragment : Fragment() {
     }
 
     private fun insertIntoCategories(name: String, color: Int, icon: ByteArray?) {
-        var category = Category(
+        val category = Category(
             0,
             name,
             color,//TODO make color picker

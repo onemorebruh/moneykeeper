@@ -1,17 +1,15 @@
-package com.example.moneykeeper
+package com.example.moneykeeper.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moneykeeper.database.CategoriesViewModel
+import com.example.moneykeeper.R
 import com.example.moneykeeper.database.TransferListAdapter
 import com.example.moneykeeper.database.TransferViewModel
 

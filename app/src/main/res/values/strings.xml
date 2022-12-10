@@ -10,4 +10,8 @@
     <string name="addExpenseButton">add expense</string>
     <string name="transactionDescription">transaction\'s description</string>
     <string name="transactionValue">transaction\'s value</string>
+    <string name="accounts">accounts</string>
+    <string name="income">income</string>
+    <string name="incomeName">income name</string>
+    <string name="saveIncome">save income</string>
 </resources>

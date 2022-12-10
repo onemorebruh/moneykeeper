@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <item
+        android:id="@+id/incomesFragment"
+        android:title="@string/income"
+        android:icon="@drawable/ic_income"/>
     <item
         android:id="@+id/categoriesFragment"
         android:title="@string/categories"
@@ -12,5 +17,9 @@
     <item
         android:id="@+id/transactionsFragment"
         android:title="@string/transactions"
-        android:icon="@drawable/ic_transactions"/>
+        android:icon="@drawable/ic_statistics"/>
+    <item
+        android:id="@+id/accountsFragment"
+        android:title="@string/accounts"
+        android:icon="@drawable/ic_account"/>
 </menu>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/transactionsFragment"
-        android:name="com.example.moneykeeper.AnalisysFragment"
+        android:name="com.example.moneykeeper.fragments.AnalisysFragment"
         android:label="fragment_analisys"
         tools:layout="@layout/fragment_analisys" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="com.example.moneykeeper.CategoriesFragment"
+        android:name="com.example.moneykeeper.fragments.CategoriesFragment"
         android:label="fragment_categories"
         tools:layout="@layout/fragment_categories" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.moneykeeper.MainFragment"
+        android:name="com.example.moneykeeper.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -37,14 +37,50 @@
         <action
             android:id="@+id/action_mainFragment_to_analisysFragment"
             app:destination="@id/transactionsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_incomesFragment"
+            app:destination="@id/incomesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_accountsFragment"
+            app:destination="@id/accountsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCategoryFragment"
-        android:name="com.example.moneykeeper.addCategoryFragment"
+        android:name="com.example.moneykeeper.fragments.addCategoryFragment"
         android:label="fragment_add_category"
         tools:layout="@layout/fragment_add_category" >
         <action
             android:id="@+id/action_addCategoryFragment_to_categoriesFragment"
             app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/incomesFragment"
+        android:name="com.example.moneykeeper.fragments.IncomesFragment"
+        android:label="fragment_incomes"
+        tools:layout="@layout/fragment_incomes" >
+        <action
+            android:id="@+id/action_incomesFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_incomesFragment_to_addIncomeFragment"
+            app:destination="@id/addIncomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountsFragment"
+        android:name="com.example.moneykeeper.fragments.AccountsFragment"
+        android:label="fragment_accounts"
+        tools:layout="@layout/fragment_accounts" >
+        <action
+            android:id="@+id/action_accountsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addIncomeFragment"
+        android:name="com.example.moneykeeper.fragments.AddIncomeFragment"
+        android:label="fragment_add_income"
+        tools:layout="@layout/fragment_add_income" >
+        <action
+            android:id="@+id/action_addIncomeFragment_to_incomesFragment"
+            app:destination="@id/incomesFragment" />
     </fragment>
 </navigation>

@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.addCategoryFragment">
+    tools:context=".fragments.AddIncomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/categoryName"
+            android:id="@+id/incomeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="98dp"
             android:layout_marginTop="200dp"
             android:layout_marginEnd="98dp"
             android:ems="10"
-            android:hint="@string/categoryName"
+            android:hint="@string/incomeName"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,18 +29,18 @@
             />
 
         <View
-            android:id="@+id/selectedColor"
+            android:id="@+id/selectedIncomeColor"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginStart="98dp"
             android:layout_marginTop="96dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryName"
+            app:layout_constraintTop_toBottomOf="@+id/incomeName"
             android:background="@drawable/color_bg"/>
 
         <View
-            android:id="@+id/selectedIcon"
+            android:id="@+id/selectedIncomeIcon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -48,10 +48,10 @@
             android:layout_marginEnd="98dp"
             android:background="@drawable/color_bg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryName" />
+            app:layout_constraintTop_toBottomOf="@+id/incomeName" />
 
         <Button
-            android:id="@+id/saveCategoryButton"
+            android:id="@+id/saveIncomeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="98dp"
@@ -60,7 +60,7 @@
             android:background="@drawable/color_bg"
             android:backgroundTint="@color/primary"
             android:shadowColor="@color/primary"
-            android:text="@string/saveCategory"
+            android:text="@string/saveIncome"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

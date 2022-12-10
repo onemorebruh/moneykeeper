@@ -13,9 +13,6 @@ interface CategoriesDao {
     @Query("SELECT * FROM category")
     fun getAll(): LiveData<List<Category>>
 
-    @Query("SELECT * FROM category")
-    fun getListOfAll(): List<Category>
-
     @Query("SELECT * FROM category WHERE uid = :uid LIMIT 1")
     fun getOneById(uid: Int): Category
 
