@@ -19,7 +19,9 @@ class MainFragment : Fragment() {
     private var expenseButton: Button? = null
     private lateinit var myTransferViewModel: TransferViewModel
     private lateinit var myCategoriesViewModel: CategoriesViewModel
-    private var selectedCategory: Category? = null
+    private lateinit var myIncomeViewModel: IncomeViewModel
+    private var selectedCategory: Category? = null//Category or Income
+    private var selectedIncome: Income? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,11 +29,15 @@ class MainFragment : Fragment() {
         incomeButton = view.findViewById(R.id.addIncomeButton)
         expenseButton = view.findViewById(R.id.addExpenseButton)
 
-        var categoryNames: MutableList<String> = mutableListOf<String>()
-        var categories: MutableList<Category> = mutableListOf<Category>()
+        val categoryNames: MutableList<String> = mutableListOf<String>()
+        val categories: MutableList<Category> = mutableListOf<Category>()
+
+        val incomes: MutableList<Income> = mutableListOf<Income>()
+        val incomeNames: MutableList<String> = mutableListOf<String>()
 
         myTransferViewModel = ViewModelProvider(this)[TransferViewModel::class.java]
         myCategoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
+        myIncomeViewModel = ViewModelProvider(this)[IncomeViewModel::class.java]
 
 
         expenseButton!!.setOnClickListener {//TODO fix border radius
@@ -76,7 +82,7 @@ class MainFragment : Fragment() {
             dialog.setView(dialogView)
             val alertDialog = dialog.create()
             submitIncomeButton.setOnClickListener {
-                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, editValue.text.toString())
+                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, null, editValue.text.toString(), true)
                 alertDialog.dismiss()
             }
             alertDialog.show()
@@ -94,11 +100,19 @@ class MainFragment : Fragment() {
             val spinnerIncome= dialogView.findViewById<Spinner>(R.id.spinnerIncomes)
             val editValue = dialogView.findViewById<EditText>(R.id.editTextNumberIncomes)
             val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitIncomesButton)
-            //list of categories
-            val categories = arrayOf("salary", "investments")/* TODO rebuild database so there will be no conflict between categories and incomes(there is no incomes now but Transfers have only one field for foreign key */
             //spinner set array of values
-            val spinnerArrayAdapter = ArrayAdapter<String>(requireContext(),
-                R.layout.text_view, categories)
+            val spinnerArrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.text_view, incomeNames)
+            //list of categories
+            myIncomeViewModel.readAllData.observe(viewLifecycleOwner,
+                Observer<List<Income?>> { terms ->
+                    for (term in terms) {
+                        incomeNames.add(term!!.name)
+                        incomes.add(term)
+                    }
+
+                    //notifyDataSetChanged after update termsList variable here
+                    spinnerArrayAdapter.notifyDataSetChanged()
+                })
 
             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -107,7 +121,7 @@ class MainFragment : Fragment() {
 
                 AdapterView.OnItemSelectedListener{// TODO fix it
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    //selectedCategory = categories[p2]
+                selectedIncome = incomes[p2]
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -119,7 +133,7 @@ class MainFragment : Fragment() {
             dialog.setView(dialogView)
             val alertDialog = dialog.create()
             submitIncomeButton.setOnClickListener {
-                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, editValue.text.toString())
+                insertTransaction(editTransactionName.text.toString(), null,selectedIncome, editValue.text.toString(), false)
                 alertDialog.dismiss()
             }
             alertDialog.show()
@@ -132,31 +146,50 @@ class MainFragment : Fragment() {
         return view
     }
 
-    private fun insertTransaction(transactionName: String, category: Category, value: String){
+    private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, isExpense: Boolean){
         var actualValue: String? = null
-        //check for minus
-        if (value.toInt() < 0){
-            actualValue = value
-        } else {
-            actualValue = ( value.toInt() * -1 ).toString()
-        }
+        if (isExpense){//expense
+            //check for minus
+            if (value.toInt() < 0){
+                actualValue = value
+            } else {
+                actualValue = ( value.toInt() * -1 ).toString()
+            }
 
-        val transfer = Transfer(
-            0,
-            transactionName,
-            value,
-            category.uid.toString(),//here is String but required tu be an Int
-            null,
-            null,//TODO read color from categories
-        )
-        if (inputCheck(transactionName, category, value)){
-            myTransferViewModel.addTransfer(transfer)
-            Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
-        }else{
-            Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
+
+
+            val transfer = Transfer(
+                0,
+                transactionName,
+                actualValue,
+                category!!.uid.toString(),//here is String but required tu be an Int
+                null,
+                null,//TODO read color from categories
+            )
+            //check for being not empty as expense
+            if (!(TextUtils.isEmpty(transactionName)) && !(TextUtils.isEmpty(category.uid.toString())) && !(TextUtils.isEmpty(value))){
+                myTransferViewModel.addTransfer(transfer)
+                Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
+            }
+
+        }else{//income
+            val transfer = Transfer(
+                0,
+                transactionName,
+                value,
+                null,
+                income!!.uid.toString(),
+                null,//TODO read color from income
+            )
+
+            if (!(TextUtils.isEmpty(transactionName)) && !(TextUtils.isEmpty(income.uid.toString())) && !(TextUtils.isEmpty(value))){
+                myTransferViewModel.addTransfer(transfer)
+                Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
+            }
         }
-    }
-    private fun inputCheck(name: String, category: Category, value: String): Boolean {
-        return !(TextUtils.isEmpty(name)) && !(TextUtils.isEmpty(category.uid.toString())) && !(TextUtils.isEmpty(value))
     }
 }
