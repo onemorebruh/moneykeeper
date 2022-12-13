@@ -151,52 +151,52 @@ class MainFragment : Fragment() {
 
     private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, isExpense: Boolean){
         var actualValue: String? = null
-        if (isExpense){//expense
-            //check for minus
-            if (value.toInt() < 0){
-                actualValue = value
-            } else {
-                actualValue = ( value.toInt() * -1 ).toString()
-            }
+        if (!(TextUtils.isEmpty(transactionName)) && (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){
+            if (isExpense){//expense
+                //check for minus
+                if (value.toInt() < 0){
+                    actualValue = value
+                } else {
+                    actualValue = ( value.toInt() * -1 ).toString()
+                }
 
 
 
 
-            val transfer = Transfer(
-                0,
-                transactionName,
-                actualValue,
-                category!!.uid.toString(),//here is String but required tu be an Int
-                null,
-                color,//read color from categories
-            )
-            //check for being not empty as expense
-            if (!(TextUtils.isEmpty(transactionName)) && !(TextUtils.isEmpty(category.uid.toString())) && !(TextUtils.isEmpty(value))){
+                val transfer = Transfer(
+                    0,
+                    transactionName,
+                    actualValue,
+                    category!!.uid.toString(),//here is String but required tu be an Int
+                    null,
+                    color,//read color from categories
+                )
+                //check for being not empty as expense
+                    myTransferViewModel.addTransfer(transfer)
+                    Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
+
+            }else {//income
+
+
+                val transfer = Transfer(
+                    0,
+                    transactionName,
+                    value,
+                    null,
+                    income!!.uid.toString(),
+                    color,//read color from income
+                )
+
+
                 myTransferViewModel.addTransfer(transfer)
-                Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "success: ${transfer.name} transaction added",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             }else{
                 Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
             }
-
-        }else{//income
-
-
-
-            val transfer = Transfer(
-                0,
-                transactionName,
-                value,
-                null,
-                income!!.uid.toString(),
-                color,//read color from income
-            )
-
-            if (!(TextUtils.isEmpty(transactionName)) && !(TextUtils.isEmpty(income.uid.toString())) && !(TextUtils.isEmpty(value))){
-                myTransferViewModel.addTransfer(transfer)
-                Toast.makeText(requireContext(), "success: ${transfer.name} transaction added", Toast.LENGTH_LONG).show()
-            }else{
-                Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
-            }
-        }
     }
 }

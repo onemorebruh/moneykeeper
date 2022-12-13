@@ -140,7 +140,7 @@ class addCategoryFragment : Fragment() {
         return view
     }
 
-    fun setColor(color: Int) {
+    private fun setColor(color: Int) {
         //return color as Int
         selectedColor!!.setBackgroundColor(color)
     }

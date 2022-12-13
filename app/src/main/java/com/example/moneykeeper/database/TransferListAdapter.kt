@@ -34,7 +34,7 @@ class TransferListAdapter(): RecyclerView.Adapter<TransferListAdapter.TransferLi
             holder.transferValue.setTextColor((Color.parseColor("#4CAF50")))
         }
         // paint transferView to category's color
-        holder.transferView.setBackgroundColor(transfers[position].categoryColor)
+        holder.transferName.setTextColor(transfers[position].categoryColor)
     }
 
     override fun getItemCount(): Int {
