@@ -152,7 +152,7 @@ class addCategoryFragment : Fragment() {
             color,
             icon//TODO make icon picker
         )
-        if (inputCheck(name)){
+        if (inputCheck(name, color)){
             //insert
             myCategoriesViewModel.addCategory(category)
             Toast.makeText(requireContext(), "success: ${category.name} category added", Toast.LENGTH_LONG).show()
@@ -162,8 +162,8 @@ class addCategoryFragment : Fragment() {
 
     }
 
-    private fun inputCheck(name: String): Boolean {//TODO add color and icon when user is able to choose them
-        return !(TextUtils.isEmpty(name))
+    private fun inputCheck(name: String, color: Int): Boolean {//TODO add  icon when user is able to choose them
+        return (!(TextUtils.isEmpty(name)) && color != 0)
     }
 
 }
