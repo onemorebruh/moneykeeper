@@ -9,7 +9,7 @@
     <string name="addIncomeButton">add income</string>
     <string name="addExpenseButton">add expense</string>
     <string name="transactionDescription">transaction\'s description</string>
-    <string name="transactionValue">transaction\'s value</string>
+    <string name="transactionValue">amount of money</string>
     <string name="accounts">accounts</string>
     <string name="income">income</string>
     <string name="incomeName">income name</string>

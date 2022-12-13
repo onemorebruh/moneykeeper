@@ -25,5 +25,5 @@ data class Transfer(
     @ColumnInfo(name = "value") val value: String,
     @ColumnInfo(name = "category") val category: String?,
     @ColumnInfo(name= "income") val income: String?,
-    @ColumnInfo(name = "category_color") val categoryColor: Int?//TODO set color from categories
+    @ColumnInfo(name = "category_color") val categoryColor: Int//TODO set color from categories
 )

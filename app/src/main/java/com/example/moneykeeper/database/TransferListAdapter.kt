@@ -30,9 +30,11 @@ class TransferListAdapter(): RecyclerView.Adapter<TransferListAdapter.TransferLi
         holder.transferValue.text = transfers[position].value.toString()
         if (transfers[position].value.toInt() < 0){
             holder.transferValue.setTextColor(Color.parseColor("#D33535"))
-        }else
+        }else {
             holder.transferValue.setTextColor((Color.parseColor("#4CAF50")))
-        //todo paint transferView to category's color
+        }
+        // paint transferView to category's color
+        holder.transferView.setBackgroundColor(transfers[position].categoryColor)
     }
 
     override fun getItemCount(): Int {

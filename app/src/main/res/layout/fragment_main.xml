@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="21dp"
         android:layout_marginBottom="21dp"
+        android:backgroundTint="@color/primary"
         android:text="@string/addIncomeButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/color_bg" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/addExpenseButton"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="21dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/red_bg"
+        android:backgroundTint="@color/red"
         android:text="@string/addExpenseButton"
         app:layout_constraintBottom_toTopOf="@+id/addIncomeButton"
         app:layout_constraintEnd_toEndOf="parent" />

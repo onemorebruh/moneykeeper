@@ -9,7 +9,7 @@
     <string name="addIncomeButton">добавить доход</string>
     <string name="addExpenseButton">добавить расход</string>
     <string name="transactionDescription">описание транзакции</string>
-    <string name="transactionValue">значение</string>
+    <string name="transactionValue">сумма</string>
     <string name="accounts">счета</string>
     <string name="income">доходы</string>
     <string name="incomeName">название дохода</string>

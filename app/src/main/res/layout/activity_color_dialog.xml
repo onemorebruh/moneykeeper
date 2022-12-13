@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".ColorDialogActivity">
+
+    <View
+        android:id="@+id/red700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/red700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/pink700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/pink700"
+        app:layout_constraintStart_toEndOf="@id/red700"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/purple700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/purple700"
+        app:layout_constraintStart_toEndOf="@id/pink700"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/deepPurple700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/deepPurple700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/purple700"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/indigo700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/indigo700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/red700" />
+
+    <View
+        android:id="@+id/blue700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/blue700"
+        app:layout_constraintStart_toEndOf="@id/indigo700"
+        app:layout_constraintTop_toBottomOf="@id/red700" />
+
+    <View
+        android:id="@+id/lightBlue700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/lightBlue700"
+        app:layout_constraintStart_toEndOf="@id/blue700"
+        app:layout_constraintTop_toBottomOf="@id/red700" />
+
+    <View
+        android:id="@+id/cyan700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/cyan700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lightBlue700"
+        app:layout_constraintTop_toBottomOf="@id/red700" />
+
+    <View
+        android:id="@+id/teal700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/teal700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indigo700" />
+
+    <View
+        android:id="@+id/green700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/green700"
+        app:layout_constraintStart_toEndOf="@+id/teal700"
+        app:layout_constraintTop_toBottomOf="@+id/blue700" />
+
+    <View
+        android:id="@+id/lightGreen700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/lightGreen700"
+        app:layout_constraintStart_toEndOf="@+id/green700"
+        app:layout_constraintTop_toBottomOf="@+id/lightBlue700" />
+
+    <View
+        android:id="@+id/lime700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/lime700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lightGreen700"
+        app:layout_constraintTop_toBottomOf="@+id/cyan700" />
+
+    <View
+        android:id="@+id/yellow700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/yellow700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teal700" />
+
+    <View
+        android:id="@+id/amber700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/amber700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/yellow700"
+        app:layout_constraintTop_toBottomOf="@+id/green700"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/orange700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/orange700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/amber700"
+        app:layout_constraintTop_toBottomOf="@+id/lightGreen700" />
+
+    <View
+        android:id="@+id/deepOrange700"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/deepOrange700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/orange700"
+        app:layout_constraintTop_toBottomOf="@+id/lime700" />
+        <!-- TODO fix boxes to be equally margined -->
+</androidx.constraintlayout.widget.ConstraintLayout>

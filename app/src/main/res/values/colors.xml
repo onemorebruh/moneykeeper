@@ -10,4 +10,21 @@
     <color name="primary">#4CAF50</color>
     <color name="red">#D33535</color>
     <color name="secondary">#009688</color>
+    <!--                700's                           -->
+    <color name="red700">#d50000</color>
+    <color name="pink700">#c51162</color>
+    <color name="purple700">#aa00ff</color>
+    <color name="deepPurple700">#6200ea</color>
+    <color name="indigo700">#304ffe</color>
+    <color name="blue700">#2962ff</color>
+    <color name="lightBlue700">#0091ea</color>
+    <color name="cyan700">#00b8d4</color>
+    <color name="teal700">#00bfa5</color>
+    <color name="green700">#00c853</color>
+    <color name="lightGreen700">#64dd17</color>
+    <color name="lime700">#aeea00</color>
+    <color name="yellow700">#ffd600</color>
+    <color name="amber700">#ffab00</color>
+    <color name="orange700">#ff6d00</color>
+    <color name="deepOrange700">#dd2c00</color>
 </resources>

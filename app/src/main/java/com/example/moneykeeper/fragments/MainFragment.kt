@@ -22,6 +22,7 @@ class MainFragment : Fragment() {
     private lateinit var myIncomeViewModel: IncomeViewModel
     private var selectedCategory: Category? = null//Category or Income
     private var selectedIncome: Income? = null
+    private var selectedColor: Int = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,11 +41,11 @@ class MainFragment : Fragment() {
         myIncomeViewModel = ViewModelProvider(this)[IncomeViewModel::class.java]
 
 
-        expenseButton!!.setOnClickListener {//TODO fix border radius
+        expenseButton!!.setOnClickListener {
             val dialog = AlertDialog.Builder(context)
             val dialogView = layoutInflater.inflate(R.layout.expense_dialog, null)
             val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionNameExpense)
-            val spinnerExprense= dialogView.findViewById<Spinner>(R.id.spinnerExpenses)
+            val spinnerExpense= dialogView.findViewById<Spinner>(R.id.spinnerExpenses)
             val editValue = dialogView.findViewById<EditText>(R.id.editTextNumberExpenses)
             val submitIncomeButton = dialogView.findViewById<Button>(R.id.submitExpensesButton)
             //spinner set array of values
@@ -65,12 +66,13 @@ class MainFragment : Fragment() {
 
             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            spinnerExprense.adapter = spinnerArrayAdapter
-            spinnerExprense.onItemSelectedListener = object :
+            spinnerExpense.adapter = spinnerArrayAdapter
+            spinnerExpense.onItemSelectedListener = object :
 
                 AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     selectedCategory = categories[p2]
+                    selectedColor = categories[p2].color
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -78,11 +80,11 @@ class MainFragment : Fragment() {
                 }
 
             }
-            //TODO make it return selected category to selected category variable
+
             dialog.setView(dialogView)
             val alertDialog = dialog.create()
             submitIncomeButton.setOnClickListener {
-                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, null, editValue.text.toString(), true)
+                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, null, editValue.text.toString(), selectedColor, true)
                 alertDialog.dismiss()
             }
             alertDialog.show()
@@ -119,9 +121,10 @@ class MainFragment : Fragment() {
             spinnerIncome.adapter = spinnerArrayAdapter
             spinnerIncome.onItemSelectedListener = object :
 
-                AdapterView.OnItemSelectedListener{// TODO fix it
+                AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectedIncome = incomes[p2]
+                    selectedIncome = incomes[p2]
+                    selectedColor = categories[p2].color
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -129,11 +132,11 @@ class MainFragment : Fragment() {
                 }
 
             }
-            //TODO make it return selected category to selected category variable
+
             dialog.setView(dialogView)
             val alertDialog = dialog.create()
             submitIncomeButton.setOnClickListener {
-                insertTransaction(editTransactionName.text.toString(), null,selectedIncome, editValue.text.toString(), false)
+                insertTransaction(editTransactionName.text.toString(), null,selectedIncome, editValue.text.toString(), selectedColor, false)
                 alertDialog.dismiss()
             }
             alertDialog.show()
@@ -146,7 +149,7 @@ class MainFragment : Fragment() {
         return view
     }
 
-    private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, isExpense: Boolean){
+    private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, isExpense: Boolean){
         var actualValue: String? = null
         if (isExpense){//expense
             //check for minus
@@ -158,13 +161,14 @@ class MainFragment : Fragment() {
 
 
 
+
             val transfer = Transfer(
                 0,
                 transactionName,
                 actualValue,
                 category!!.uid.toString(),//here is String but required tu be an Int
                 null,
-                null,//TODO read color from categories
+                color,//read color from categories
             )
             //check for being not empty as expense
             if (!(TextUtils.isEmpty(transactionName)) && !(TextUtils.isEmpty(category.uid.toString())) && !(TextUtils.isEmpty(value))){
@@ -175,13 +179,16 @@ class MainFragment : Fragment() {
             }
 
         }else{//income
+
+
+
             val transfer = Transfer(
                 0,
                 transactionName,
                 value,
                 null,
                 income!!.uid.toString(),
-                null,//TODO read color from income
+                color,//read color from income
             )
 
             if (!(TextUtils.isEmpty(transactionName)) && !(TextUtils.isEmpty(income.uid.toString())) && !(TextUtils.isEmpty(value))){

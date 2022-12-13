@@ -13,7 +13,7 @@ class IncomeListAdapter(): RecyclerView.Adapter<IncomeListAdapter.IncomeListHold
 
     class IncomeListHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val identificator: TextView =  itemView.findViewById(R.id.uid_row)
-        val incomeName: TextView = itemView.findViewById(R.id.name_row)//TODO incomes View
+        val incomeName: TextView = itemView.findViewById(R.id.name_row)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeListHolder {
