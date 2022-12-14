@@ -2,15 +2,167 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".IconDialog">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tableView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageGadjets"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageQuestion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageFood"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_electronics" />
+
+    <ImageView
+        android:id="@+id/imageFamily"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageHealth"
+        app:layout_constraintStart_toEndOf="@+id/imageCar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_family" />
+
+    <ImageView
+        android:id="@+id/imageFood"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageHome"
+        app:layout_constraintStart_toEndOf="@+id/imageFamily"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_food" />
+
+    <ImageView
+        android:id="@+id/imageCar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageGroceries"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_car" />
+
+
+    <ImageView
+        android:id="@+id/imageQuestion"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageGift"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageFood"
+        app:layout_constraintTop_toBottomOf="@+id/imageGadjets"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_question" />
+
+    <ImageView
+        android:id="@+id/imageHealth"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageTransport"
+        app:layout_constraintEnd_toStartOf="@+id/imageHome"
+        app:layout_constraintStart_toEndOf="@+id/imageCar"
+        app:layout_constraintTop_toBottomOf="@+id/imageFamily"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_health" />
+
+    <ImageView
+        android:id="@+id/imageHome"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageQuestion"
+        app:layout_constraintStart_toEndOf="@+id/imageFamily"
+        app:layout_constraintTop_toBottomOf="@+id/imageFood"
+        app:srcCompat="@drawable/image_home" />
+
+    <ImageView
+        android:id="@+id/imageGroceries"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageSubscribtion"
+        app:layout_constraintEnd_toStartOf="@+id/imageHealth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageCar"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_groceries" />
+
+
+    <ImageView
+        android:id="@+id/imageGift"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageFood"
+        app:srcCompat="@drawable/image_gift" />
+
+    <ImageView
+        android:id="@+id/imageTransport"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageOther"
+        app:layout_constraintStart_toEndOf="@+id/imageCar"
+        app:srcCompat="@drawable/image_transport" />
+
+    <ImageView
+        android:id="@+id/imageOther"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageGift"
+        app:layout_constraintStart_toEndOf="@+id/imageFamily"
+        app:layout_constraintTop_toBottomOf="@+id/imageHome"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/image_wallet" />
+
+    <ImageView
+        android:id="@+id/imageSubscribtion"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageTransport"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/image_subscriptions" />
 </androidx.constraintlayout.widget.ConstraintLayout>

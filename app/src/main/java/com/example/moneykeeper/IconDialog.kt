@@ -15,12 +15,9 @@ import java.lang.reflect.Field
 
 class IconDialog : AppCompatActivity() {
 
-    private var tableView: RecyclerView? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_icon_dialog)
-        //TODO make icon choose dialog
     }
 }

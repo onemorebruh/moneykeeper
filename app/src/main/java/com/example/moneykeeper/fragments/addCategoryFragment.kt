@@ -1,7 +1,10 @@
 package com.example.moneykeeper.fragments
 
 import android.app.AlertDialog
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -14,6 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.moneykeeper.R
 import com.example.moneykeeper.database.CategoriesViewModel
 import com.example.moneykeeper.database.Category
+import java.io.ByteArrayOutputStream
+
 
 class addCategoryFragment : Fragment() {
 
@@ -21,6 +26,8 @@ class addCategoryFragment : Fragment() {
     private lateinit var myCategoriesViewModel: CategoriesViewModel
     private var selectedColor: View? = null
     private var selectedColorInt: Int = 0
+    private var selectedIcon: View? = null
+    private var selectedIconValue: ByteArray? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,6 +38,7 @@ class addCategoryFragment : Fragment() {
         val saveCategoryButton = view.findViewById<Button>(R.id.saveCategoryButton)
         val categoryName = view.findViewById<EditText>(R.id.categoryName)
         selectedColor = view.findViewById(R.id.selectedColor)
+        selectedIcon = view.findViewById(R.id.selectedIcon)
 
         selectedColor!!.setOnClickListener {
 
@@ -123,12 +131,36 @@ class addCategoryFragment : Fragment() {
                 selectedColorInt = Color.parseColor("#dd2c00")
                 alertDialog.dismiss()
             }
-
-
-
-
-
         }
+
+        selectedIcon!!.setOnClickListener {
+
+            val dialog = AlertDialog.Builder(context)
+            val dialogView = layoutInflater.inflate(R.layout.activity_icon_dialog, null)
+
+            dialog.setView(dialogView)
+            val alertDialog = dialog.create()
+
+            alertDialog.show()
+            // get colors
+            val car = dialogView.findViewById<View>(R.id.imageCar)
+            val family = dialogView.findViewById<View>(R.id.imageFamily)
+            val food = dialogView.findViewById<View>(R.id.imageFood)
+            val gadget = dialogView.findViewById<View>(R.id.imageGadjets)
+            val gift = dialogView.findViewById<View>(R.id.imageGift)
+            val grocery = dialogView.findViewById<View>(R.id.imageGroceries)
+            val health = dialogView.findViewById<View>(R.id.imageHealth)
+            val home = dialogView.findViewById<View>(R.id.imageHome)
+            val other = dialogView.findViewById<View>(R.id.imageOther)
+            val question = dialogView.findViewById<View>(R.id.imageQuestion)
+            val subscribtion = dialogView.findViewById<View>(R.id.imageSubscribtion)
+            val transport = dialogView.findViewById<View>(R.id.imageTransport)
+            //set listeners
+            car.setOnClickListener {
+                alertDialog.dismiss()
+            }
+        }
+
 
         saveCategoryButton.setOnClickListener {
             insertIntoCategories(categoryName.text.toString(), selectedColorInt, null)
