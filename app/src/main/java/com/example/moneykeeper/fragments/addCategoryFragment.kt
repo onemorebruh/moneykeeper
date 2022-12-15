@@ -2,15 +2,20 @@ package com.example.moneykeeper.fragments
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -67,67 +72,83 @@ class addCategoryFragment : Fragment() {
             val orange700 = dialogView.findViewById<View>(R.id.orange700)
             val deepOrange700 = dialogView.findViewById<View>(R.id.deepOrange700)
             //set listeners
-            red700.setOnClickListener { setColor(Color.parseColor("#d50000"))
+            red700.setOnClickListener {
+                setColor(Color.parseColor("#d50000"))
                 selectedColorInt = Color.parseColor("#d50000")
                 alertDialog.dismiss()
             }
-            pink700.setOnClickListener { setColor(Color.parseColor("#c51162"))
+            pink700.setOnClickListener {
+                setColor(Color.parseColor("#c51162"))
                 selectedColorInt = Color.parseColor("#c51162")
                 alertDialog.dismiss()
             }
-            purple700.setOnClickListener { setColor(Color.parseColor("#aa00ff"))
+            purple700.setOnClickListener {
+                setColor(Color.parseColor("#aa00ff"))
                 selectedColorInt = Color.parseColor("#aa00ff")
                 alertDialog.dismiss()
             }
-            deepPurple700.setOnClickListener { setColor(Color.parseColor("#6200ea"))
+            deepPurple700.setOnClickListener {
+                setColor(Color.parseColor("#6200ea"))
                 selectedColorInt = Color.parseColor("#6200ea")
                 alertDialog.dismiss()
             }
-            indigo700.setOnClickListener { setColor(Color.parseColor("#304ffe"))
+            indigo700.setOnClickListener {
+                setColor(Color.parseColor("#304ffe"))
                 selectedColorInt = Color.parseColor("#304ffe")
                 alertDialog.dismiss()
             }
-            blue700.setOnClickListener { setColor(Color.parseColor("#2962ff"))
+            blue700.setOnClickListener {
+                setColor(Color.parseColor("#2962ff"))
                 selectedColorInt = Color.parseColor("#2962ff")
                 alertDialog.dismiss()
             }
-            lightBlue700.setOnClickListener { setColor(Color.parseColor("#0091ea"))
+            lightBlue700.setOnClickListener {
+                setColor(Color.parseColor("#0091ea"))
                 selectedColorInt = Color.parseColor("#0091ea")
                 alertDialog.dismiss()
             }
-            cyan700.setOnClickListener { setColor(Color.parseColor("#00b8d4"))
+            cyan700.setOnClickListener {
+                setColor(Color.parseColor("#00b8d4"))
                 selectedColorInt = Color.parseColor("#00b8d4")
                 alertDialog.dismiss()
             }
-            teal700.setOnClickListener { setColor(Color.parseColor("#00bfa5"))
+            teal700.setOnClickListener {
+                setColor(Color.parseColor("#00bfa5"))
                 selectedColorInt = Color.parseColor("#00bfa5")
                 alertDialog.dismiss()
             }
-            green700.setOnClickListener { setColor(Color.parseColor("#00c853"))
+            green700.setOnClickListener {
+                setColor(Color.parseColor("#00c853"))
                 selectedColorInt = Color.parseColor("#00c853")
                 alertDialog.dismiss()
             }
-            lightGreen700.setOnClickListener { setColor(Color.parseColor("#64dd17"))
+            lightGreen700.setOnClickListener {
+                setColor(Color.parseColor("#64dd17"))
                 selectedColorInt = Color.parseColor("#64dd17")
                 alertDialog.dismiss()
             }
-            lime700.setOnClickListener { setColor(Color.parseColor("#aeea00"))
+            lime700.setOnClickListener {
+                setColor(Color.parseColor("#aeea00"))
                 selectedColorInt = Color.parseColor("#aeea00")
                 alertDialog.dismiss()
             }
-            yellow700.setOnClickListener { setColor(Color.parseColor("#ffd600"))
+            yellow700.setOnClickListener {
+                setColor(Color.parseColor("#ffd600"))
                 selectedColorInt = Color.parseColor("#ffd600")
                 alertDialog.dismiss()
             }
-            amber700.setOnClickListener { setColor(Color.parseColor("#ffab00"))
+            amber700.setOnClickListener {
+                setColor(Color.parseColor("#ffab00"))
                 selectedColorInt = Color.parseColor("#ffab00")
                 alertDialog.dismiss()
             }
-            orange700.setOnClickListener { setColor(Color.parseColor("#ff6d00"))
+            orange700.setOnClickListener {
+                setColor(Color.parseColor("#ff6d00"))
                 selectedColorInt = Color.parseColor("#ff6d00")
                 alertDialog.dismiss()
             }
-            deepOrange700.setOnClickListener { setColor(Color.parseColor("#dd2c00"))
+            deepOrange700.setOnClickListener {
+                setColor(Color.parseColor("#dd2c00"))
                 selectedColorInt = Color.parseColor("#dd2c00")
                 alertDialog.dismiss()
             }
@@ -142,7 +163,7 @@ class addCategoryFragment : Fragment() {
             val alertDialog = dialog.create()
 
             alertDialog.show()
-            // get colors
+            // get icons
             val car = dialogView.findViewById<View>(R.id.imageCar)
             val family = dialogView.findViewById<View>(R.id.imageFamily)
             val food = dialogView.findViewById<View>(R.id.imageFood)
@@ -157,15 +178,81 @@ class addCategoryFragment : Fragment() {
             val transport = dialogView.findViewById<View>(R.id.imageTransport)
             //set listeners
             car.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_car)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_car)
+                alertDialog.dismiss()
+            }
+            family.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_family)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_family)
+                alertDialog.dismiss()
+            }
+            food.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_food)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_food)
+                alertDialog.dismiss()
+            }
+            gadget.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_electronics)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_electronics)
+                alertDialog.dismiss()
+            }
+            gift.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_gift)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_gift)
+                alertDialog.dismiss()
+            }
+            grocery.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_groceries)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_groceries)
+                alertDialog.dismiss()
+            }
+            health.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_health)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_health)
+                alertDialog.dismiss()
+            }
+            home.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_home)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_home)
+                alertDialog.dismiss()
+            }
+            other.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_wallet)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_wallet)
+                alertDialog.dismiss()
+            }
+            question.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_question)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_question)
+                alertDialog.dismiss()
+            }
+            subscribtion.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_subscriptions)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_subscriptions)
+                alertDialog.dismiss()
+            }
+            transport.setOnClickListener {
+                selectedIconValue = convertSVGToByteArray(R.drawable.image_transport)
+                selectedIcon!!.setBackgroundResource(R.drawable.image_transport)
                 alertDialog.dismiss()
             }
         }
 
 
         saveCategoryButton.setOnClickListener {
-            insertIntoCategories(categoryName.text.toString(), selectedColorInt, null)
-            findNavController().navigate(R.id.action_addCategoryFragment_to_categoriesFragment)
+            if (selectedIconValue != null) {
+                insertIntoCategories(
+                    categoryName.text.toString(),
+                    selectedColorInt,
+                    selectedIconValue!!
+                )
+                findNavController().navigate(R.id.action_addCategoryFragment_to_categoriesFragment)
             }
+            else{
+                Toast.makeText(context, "please choose icon", Toast.LENGTH_LONG).show()
+            }
+        }
 
 
 
@@ -177,14 +264,14 @@ class addCategoryFragment : Fragment() {
         selectedColor!!.setBackgroundColor(color)
     }
 
-    private fun insertIntoCategories(name: String, color: Int, icon: ByteArray?) {
+    private fun insertIntoCategories(name: String, color: Int, icon: ByteArray) {
         val category = Category(
-            0,
-            name,
-            color,
-            icon//TODO make icon picker
+            uid = 0,
+            name = name,
+            color = color,
+            icon = icon//TODO change category and income so icon can not be null
         )
-        if (inputCheck(name, color)){
+        if (inputCheck(name, color, icon)){
             //insert
             myCategoriesViewModel.addCategory(category)
             Toast.makeText(requireContext(), "success: ${category.name} category added", Toast.LENGTH_LONG).show()
@@ -194,8 +281,24 @@ class addCategoryFragment : Fragment() {
 
     }
 
-    private fun inputCheck(name: String, color: Int): Boolean {//TODO add  icon when user is able to choose them
-        return (!(TextUtils.isEmpty(name)) && color != 0)
+    private fun inputCheck(name: String, color: Int, icon: ByteArray?): Boolean {
+        return (!(TextUtils.isEmpty(name)) && color != 0 && icon != null)
+    }
+
+    private fun convertSVGToByteArray(resId: Int): ByteArray {//TODO check for size change(svg it converted to image here)
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val drawable: Drawable? = ContextCompat.getDrawable(requireContext(), resId)
+        drawable?.let {
+            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bitmap?.let {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                bitmap.recycle()
+            }
+        }
+        return byteArrayOutputStream.toByteArray()
     }
 
 }
