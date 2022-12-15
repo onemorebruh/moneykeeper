@@ -1,5 +1,6 @@
 package com.example.moneykeeper.database
 
+import android.graphics.drawable.Icon
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -25,5 +26,6 @@ data class Transfer(
     @ColumnInfo(name = "value") val value: String,
     @ColumnInfo(name = "category") val category: String?,
     @ColumnInfo(name= "income") val income: String?,
-    @ColumnInfo(name = "category_color") val categoryColor: Int// set color from categories
+    @ColumnInfo(name = "category_color") val categoryColor: Int,// set color from categories
+    @ColumnInfo(name = "category_icon") val categoryIcon: ByteArray
 )

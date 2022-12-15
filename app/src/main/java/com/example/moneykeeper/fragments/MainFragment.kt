@@ -3,6 +3,7 @@ package com.example.moneykeeper.fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class MainFragment : Fragment() {
     private var selectedCategory: Category? = null//Category or Income
     private var selectedIncome: Income? = null
     private var selectedColor: Int = 0
+    private var selectedIcon: ByteArray? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,8 +73,13 @@ class MainFragment : Fragment() {
 
                 AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    selectedCategory = categories[p2]
-                    selectedColor = categories[p2].color
+                    if(incomes.size >= p2) {
+                        selectedCategory = categories[p2]
+                        selectedColor = categories[p2].color
+                        selectedIcon = categories[p2].icon!!
+                    } else {
+                        Toast.makeText(context, "please add expenses firstly", Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -84,7 +91,7 @@ class MainFragment : Fragment() {
             dialog.setView(dialogView)
             val alertDialog = dialog.create()
             submitIncomeButton.setOnClickListener {
-                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, null, editValue.text.toString(), selectedColor, true)
+                insertTransaction(editTransactionName.text.toString(), selectedCategory!!, null, editValue.text.toString(), selectedColor, selectedIcon!!, true)
                 alertDialog.dismiss()
             }
             alertDialog.show()
@@ -123,8 +130,13 @@ class MainFragment : Fragment() {
 
                 AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    selectedIncome = incomes[p2]
-                    selectedColor = categories[p2].color
+                    if(incomes.size >= p2) {
+                        selectedIncome = incomes[p2]
+                        selectedColor = incomes[p2].color
+                        selectedIcon = incomes[p2].icon
+                    } else {
+                        Toast.makeText(context, "please add incomes firstly", Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -136,7 +148,7 @@ class MainFragment : Fragment() {
             dialog.setView(dialogView)
             val alertDialog = dialog.create()
             submitIncomeButton.setOnClickListener {
-                insertTransaction(editTransactionName.text.toString(), null,selectedIncome, editValue.text.toString(), selectedColor, false)
+                insertTransaction(editTransactionName.text.toString(), null,selectedIncome, editValue.text.toString(), selectedColor, selectedIcon!!, false)
                 alertDialog.dismiss()
             }
             alertDialog.show()
@@ -149,7 +161,7 @@ class MainFragment : Fragment() {
         return view
     }
 
-    private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, isExpense: Boolean){
+    private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, icon: ByteArray, isExpense: Boolean){
         var actualValue: String? = null
         if (!(TextUtils.isEmpty(transactionName)) && (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){
             if (isExpense){//expense
@@ -160,9 +172,6 @@ class MainFragment : Fragment() {
                     actualValue = ( value.toInt() * -1 ).toString()
                 }
 
-
-
-
                 val transfer = Transfer(
                     0,
                     transactionName,
@@ -170,6 +179,7 @@ class MainFragment : Fragment() {
                     category!!.uid.toString(),//here is String but required tu be an Int
                     null,
                     color,//read color from categories
+                    icon
                 )
                 //check for being not empty as expense
                     myTransferViewModel.addTransfer(transfer)
@@ -177,16 +187,15 @@ class MainFragment : Fragment() {
 
             }else {//income
 
-
                 val transfer = Transfer(
                     0,
                     transactionName,
                     value,
                     null,
                     income!!.uid.toString(),
-                    color,//read color from income
+                    color,//read color from income,
+                    icon
                 )
-
 
                 myTransferViewModel.addTransfer(transfer)
                 Toast.makeText(

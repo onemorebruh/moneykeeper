@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">money keeper</string>
-    <string name="categories">Категории</string>
+    <string name="categories">расходы</string>
     <string name="transactions">Транцакции</string>
     <string name="home">Главная</string>
-    <string name="categoryName">название категории</string>
+    <string name="categoryName">название расходов</string>
     <string name="saveCategory">сохранить категорию</string>
     <string name="addIncomeButton">добавить доход</string>
     <string name="addExpenseButton">добавить расход</string>
