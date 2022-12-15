@@ -271,7 +271,7 @@ class AddIncomeFragment : Fragment() {
         }
     }
 
-    private fun inputCheck(name: String, color: Int): Boolean {//TODO add icon when user is able to choose them
+    private fun inputCheck(name: String, color: Int): Boolean {
         return (!(TextUtils.isEmpty(name)) && color != 0)
     }
 

@@ -32,11 +32,7 @@ class MainFragment : Fragment() {
         incomeButton = view.findViewById(R.id.addIncomeButton)
         expenseButton = view.findViewById(R.id.addExpenseButton)
 
-        val categoryNames: MutableList<String> = mutableListOf<String>()
-        val categories: MutableList<Category> = mutableListOf<Category>()
 
-        val incomes: MutableList<Income> = mutableListOf<Income>()
-        val incomeNames: MutableList<String> = mutableListOf<String>()
 
         myTransferViewModel = ViewModelProvider(this)[TransferViewModel::class.java]
         myCategoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
@@ -44,6 +40,8 @@ class MainFragment : Fragment() {
 
 
         expenseButton!!.setOnClickListener {
+            val categoryNames: MutableList<String> = mutableListOf<String>()
+            val categories: MutableList<Category> = mutableListOf<Category>()
             val dialog = AlertDialog.Builder(context)
             val dialogView = layoutInflater.inflate(R.layout.expense_dialog, null)
             val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionNameExpense)
@@ -73,7 +71,7 @@ class MainFragment : Fragment() {
 
                 AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    if(incomes.size >= p2) {
+                    if(categories.size >= p2) {
                         selectedCategory = categories[p2]
                         selectedColor = categories[p2].color
                         selectedIcon = categories[p2].icon!!
@@ -103,6 +101,8 @@ class MainFragment : Fragment() {
         }
 
         incomeButton!!.setOnClickListener {
+            val incomes: MutableList<Income> = mutableListOf<Income>()
+            val incomeNames: MutableList<String> = mutableListOf<String>()
             val dialog = AlertDialog.Builder(context)
             val dialogView = layoutInflater.inflate(R.layout.income_dialog, null)
             val editTransactionName = dialogView.findViewById<EditText>(R.id.editTextTransactionNameIncome)
@@ -163,7 +163,7 @@ class MainFragment : Fragment() {
 
     private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, icon: ByteArray, isExpense: Boolean){
         var actualValue: String? = null
-        if (!(TextUtils.isEmpty(transactionName)) && (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){
+        if (!(TextUtils.isEmpty(transactionName)) && (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){//TODO make opportunity to have no text in description
             if (isExpense){//expense
                 //check for minus
                 if (value.toInt() < 0){

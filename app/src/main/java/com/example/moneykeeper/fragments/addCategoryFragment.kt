@@ -269,7 +269,7 @@ class addCategoryFragment : Fragment() {
             uid = 0,
             name = name,
             color = color,
-            icon = icon//TODO change category and income so icon can not be null
+            icon = icon
         )
         if (inputCheck(name, color, icon)){
             //insert
