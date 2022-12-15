@@ -163,7 +163,7 @@ class MainFragment : Fragment() {
 
     private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, icon: ByteArray, isExpense: Boolean){
         var actualValue: String? = null
-        if (!(TextUtils.isEmpty(transactionName)) && (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){//TODO make opportunity to have no text in description
+        if ( (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){//TODO make opportunity to have no text in description
             if (isExpense){//expense
                 //check for minus
                 if (value.toInt() < 0){
