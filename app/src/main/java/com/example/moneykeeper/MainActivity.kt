@@ -25,4 +25,4 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragmentContainer)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-}
+}//добавить свг

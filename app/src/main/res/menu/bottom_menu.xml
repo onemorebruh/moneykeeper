@@ -5,7 +5,7 @@
     <item
         android:id="@+id/incomesFragment"
         android:title="@string/income"
-        android:icon="@drawable/ic_income"/>
+        android:icon="@drawable/ic_account"/>
     <item
         android:id="@+id/categoriesFragment"
         android:title="@string/categories"
@@ -21,5 +21,5 @@
     <item
         android:id="@+id/accountsFragment"
         android:title="@string/accounts"
-        android:icon="@drawable/ic_account"/>
+        android:icon="@drawable/ic_income"/>
 </menu>

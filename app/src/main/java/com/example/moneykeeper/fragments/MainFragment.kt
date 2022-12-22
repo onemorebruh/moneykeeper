@@ -1,6 +1,7 @@
 package com.example.moneykeeper.fragments
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -13,6 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.moneykeeper.R
 import com.example.moneykeeper.database.*
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
 
 class MainFragment : Fragment() {
 
@@ -25,12 +32,84 @@ class MainFragment : Fragment() {
     private var selectedIncome: Income? = null
     private var selectedColor: Int = 0
     private var selectedIcon: ByteArray? = null
+    private var pieChart: PieChart? = null
+
+    private fun draw() {
+        val arrayList = ArrayList<Transfer?>()
+        val arrayCategories = ArrayList<String>()
+        val arrayValues = ArrayList<Int>()
+        val arrayColors = ArrayList<Int>()
+        //get data for chart
+        myTransferViewModel.readAllData.observe(viewLifecycleOwner,//TODO FIX empty list
+        Observer<List<Transfer?>> {operations ->
+            for (item in operations){
+                arrayList.add(item)
+            }
+        })
+        arrayList.forEach{
+            if ((it?.category != null)) {
+                if (it.category in arrayCategories) {
+                    //find position
+                    val currentCategory = it.category
+                    val currentValue = it.value.toInt()
+                    var i: Int = 0
+                    arrayCategories.forEach {
+                        if (it == currentCategory){
+                            arrayValues[i] += currentValue
+                        }else{
+                            i += 1
+                        }
+                    }
+                    //add value to existed
+                }else{
+                    arrayCategories.add(it.category)
+                    arrayValues.add(it.value.toInt())
+                    arrayColors.add(it.categoryColor)
+                }
+            }
+        }
+        // make chart
+        var dataOfPie = ArrayList<PieEntry>()
+        //arrayCategories.forEachIndexed { index, element ->
+        //    dataOfPie.add(PieEntry(arrayValues[index].toFloat(), arrayCategories[index]))
+        //}
+        dataOfPie.add(PieEntry(0.5F, "test1"))//it somehow converts to x = 0 and y = value
+        dataOfPie.add(PieEntry(0.5F, "test2"))
+        Log.d("db", "$dataOfPie")
+        var dataSet = PieDataSet(dataOfPie, "expenses")
+        dataSet.colors = arrayColors
+        var pieData = PieData(dataSet)
+        pieData.setDrawValues(true)
+        pieData.setValueFormatter(PercentFormatter(pieChart))
+        pieData.setValueTextSize(12f)
+        pieData.setValueTextColor(Color.BLACK)
+
+        pieChart!!.data = pieData
+    }
+
+    private fun setup(){
+        pieChart!!.isDrawHoleEnabled = true
+        pieChart!!.setUsePercentValues(true)
+        pieChart!!.setEntryLabelColor(Color.BLACK)
+        pieChart!!.setEntryLabelTextSize(12F)
+        pieChart!!.centerText = "Expenses"
+        pieChart!!.setCenterTextSize(24F)
+        pieChart!!.description.isEnabled = false
+
+        val legend = pieChart!!.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+        legend.orientation = Legend.LegendOrientation.VERTICAL
+        legend.setDrawInside(false)
+        legend.isEnabled = true
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         incomeButton = view.findViewById(R.id.addIncomeButton)
         expenseButton = view.findViewById(R.id.addExpenseButton)
+        pieChart = view.findViewById<PieChart>(R.id.pie)
 
 
 
@@ -158,12 +237,15 @@ class MainFragment : Fragment() {
 
 
         }
+
+        setup()
+        draw()
         return view
     }
 
     private fun insertTransaction(transactionName: String, category: Category?, income: Income?, value: String, color: Int, icon: ByteArray, isExpense: Boolean){
         var actualValue: String? = null
-        if ( (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){//TODO make opportunity to have no text in description
+        if ( (!(TextUtils.isEmpty(income?.uid.toString())) || !TextUtils.isEmpty(category?.uid.toString())) && !(TextUtils.isEmpty(value)) && (color != 0)){
             if (isExpense){//expense
                 //check for minus
                 if (value.toInt() < 0){

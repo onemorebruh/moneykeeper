@@ -2,15 +2,15 @@
 <resources>
     <string name="app_name">money keeper</string>
     <string name="categories">расходы</string>
-    <string name="transactions">Транцакции</string>
+    <string name="transactions">Операции</string>
     <string name="home">Главная</string>
     <string name="categoryName">название расходов</string>
     <string name="saveCategory">сохранить категорию</string>
     <string name="addIncomeButton">добавить доход</string>
     <string name="addExpenseButton">добавить расход</string>
-    <string name="transactionDescription">описание транзакции</string>
+    <string name="transactionDescription">описание операции</string>
     <string name="transactionValue">сумма</string>
-    <string name="accounts">счета</string>
+    <string name="accounts">накопления</string>
     <string name="income">доходы</string>
     <string name="incomeName">название дохода</string>
     <string name="saveIncome">сохранить доход</string>
