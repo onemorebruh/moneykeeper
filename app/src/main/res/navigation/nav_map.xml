@@ -83,4 +83,9 @@
             android:id="@+id/action_addIncomeFragment_to_incomesFragment"
             app:destination="@id/incomesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/parentFragment"
+        android:name="com.example.moneykeeper.ParentFragment"
+        android:label="fragment_parent"
+        tools:layout="@layout/fragment_parent" />
 </navigation>
