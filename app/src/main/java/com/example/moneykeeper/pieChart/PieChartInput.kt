@@ -42,7 +42,7 @@ import kotlin.math.atan2
 data class PieChartInput(
     val color: Color,
     val value: Int,
-    val expenses: String,//TODO change to icon
+    val expenses: Int,//TODO change to icon
     val isTapped: Boolean = false,
     val description: String//TODO delete when fix bug
 )

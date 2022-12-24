@@ -17,6 +17,7 @@ import com.example.moneykeeper.R
 import com.example.moneykeeper.database.*
 import com.example.moneykeeper.pieChart.ChartFragment
 import com.example.moneykeeper.pieChart.PieChartInput
+import kotlin.math.abs
 
 class MainFragment : Fragment() {
 
@@ -49,49 +50,41 @@ class MainFragment : Fragment() {
 
         myTransferViewModel.readAllData.observe(viewLifecycleOwner,
         Observer<List<Transfer?>> { transfers ->
-            val listTransfers = mutableListOf<Transfer>()
-            val listOfCategoryUIDS = mutableListOf<String>()
-            for (transfer in transfers){
-                //gather them by expenses
-                if (transfer?.category != null) {
-                    listTransfers.add(transfer)
-                    listOfCategoryUIDS.add(transfer.category)
-                }
-                //sort
-                val (sortedTransfers, sortedUIDS) = sortTransfersByCategories(listTransfers, listOfCategoryUIDS)
-                // gather them to values of chart
-                var i = 0
-                var v = 0
-                while ((i + 1) < sortedUIDS.size){
-                    Log.d("v","$v")
-                    v += 1
-                    Log.d("while", "$i")
-                    Log.d("size", "${sortedUIDS.size}, ${sortedTransfers.size}")
-                    if(sortedUIDS[i] == sortedUIDS[ i + 1]){
-                        sortedTransfers[i].value = (sortedTransfers[i].value.toInt() + sortedTransfers[i + 1].value.toInt()).toString()
-                        sortedTransfers.removeAt(i + 1)
-                        sortedUIDS.removeAt(i + 1)
-                    } else{
-                        i += 1
-                    }
-                }
-                //we get sortedTransfers ready to be PieCartInput TODO FIX BUG
-                                                                // BUG: data in chart duplicates each time you change fragment
-                                                                // BUG: all values gathers in one category after adding to already existed category
-                categories.removeAll(categories)
-//                listOfCategoryUIDS.removeAll(listOfCategoryUIDS)
-//                listTransfers.removeAll(listTransfers)
-                sortedTransfers.forEach {
-                    categories.add(PieChartInput(
+            categories.removeAll(categories)
+            val pieCartTransfer = mutableListOf<com.example.moneykeeper.pieChart.Transfer>()
+            transfers.forEach{
+                if (it?.category != null) {//filter expenses
+                    pieCartTransfer.add(com.example.moneykeeper.pieChart.Transfer(
+                        uid = it.uid,
+                        name = it.name,
+                        value = abs(it.value.toInt()),
+                        category = it.category.toInt(),
                         color = Color(it.categoryColor),
-                        value = it.value.toInt(),
-                        expenses = it.category!!,
-                        description = it.name
+                        icon = it.categoryIcon
                     ))
                 }
-                categories.forEach {
-                    Log.d("category", "$it")
+            }
+            val sortedTransfers = pieCartTransfer.sortedWith(compareBy { it.category })
+            var i = 0
+            var mutableSorted = sortedTransfers.toMutableList()
+            while ((i + 1) < mutableSorted.size ){
+                if (mutableSorted[i].category == mutableSorted[i + 1].category){
+                    mutableSorted[i].value += mutableSorted[i + 1].value
+                    mutableSorted.removeAt(i + 1)
+                }else{
+                    i += 1
                 }
+            }
+            mutableSorted.forEach {
+                Log.d("transfers", "$it")
+                categories.add(
+                    PieChartInput(
+                        color = it.color,
+                        value = it.value,
+                        expenses = it.category,
+                        isTapped = false,
+                        description = it.name
+                    ))
             }
         })
         expenseButton!!.setOnClickListener {
@@ -271,7 +264,7 @@ class MainFragment : Fragment() {
        var categories = mutableListOf<PieChartInput>(PieChartInput(
            color = Color(0xFFff6d00),
            value = 100,
-           expenses = "please add data",
+           expenses = 0,
            description = "i should not be here"
        ))
 
