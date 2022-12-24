@@ -18,8 +18,4 @@
         android:id="@+id/transactionsFragment"
         android:title="@string/transactions"
         android:icon="@drawable/ic_statistics"/>
-    <item
-        android:id="@+id/accountsFragment"
-        android:title="@string/accounts"
-        android:icon="@drawable/ic_income"/>
 </menu>

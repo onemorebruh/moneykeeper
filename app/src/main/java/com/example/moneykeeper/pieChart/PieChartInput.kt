@@ -194,7 +194,7 @@ fun PieChart(
                         )
                     }
                     rotate(rotateAngle){
-                        drawContext.canvas.nativeCanvas.apply {
+                        drawContext.canvas.nativeCanvas.apply {//TODO replace with icon
                             drawText(
                                 "${pieChartInput.description}: ${pieChartInput.value}",
                                 circleCenter.x,

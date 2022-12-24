@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val hostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         val navigationController = hostFragment.navController
 
+
         bottomNavigationView.setupWithNavController(navigationController)
         setupActionBarWithNavController(navigationController)
     }
@@ -25,4 +26,4 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragmentContainer)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-}//добавить свг
+}// TODO добавить свг

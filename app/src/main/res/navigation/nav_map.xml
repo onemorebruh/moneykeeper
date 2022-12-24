@@ -40,9 +40,6 @@
         <action
             android:id="@+id/action_mainFragment_to_incomesFragment"
             app:destination="@id/incomesFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_accountsFragment"
-            app:destination="@id/accountsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCategoryFragment"
@@ -66,15 +63,6 @@
             app:destination="@id/addIncomeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/accountsFragment"
-        android:name="com.example.moneykeeper.fragments.AccountsFragment"
-        android:label="fragment_accounts"
-        tools:layout="@layout/fragment_accounts" >
-        <action
-            android:id="@+id/action_accountsFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/addIncomeFragment"
         android:name="com.example.moneykeeper.fragments.AddIncomeFragment"
         android:label="fragment_add_income"
@@ -83,9 +71,4 @@
             android:id="@+id/action_addIncomeFragment_to_incomesFragment"
             app:destination="@id/incomesFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/parentFragment"
-        android:name="com.example.moneykeeper.ParentFragment"
-        android:label="fragment_parent"
-        tools:layout="@layout/fragment_parent" />
 </navigation>

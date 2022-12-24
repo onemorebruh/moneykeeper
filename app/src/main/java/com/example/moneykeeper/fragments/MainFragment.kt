@@ -1,34 +1,19 @@
 package com.example.moneykeeper.fragments
 
 import android.app.AlertDialog
-import androidx.activity.compose.setContent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.moneykeeper.R
-import com.example.moneykeeper.*
 import com.example.moneykeeper.database.*
-import com.example.moneykeeper.pieChart.PieChart
-import com.example.moneykeeper.pieChart.PieChartInput
-import com.example.moneykeeper.pieChart.PieChartYTTheme
+import com.example.moneykeeper.pieChart.ChartFragment
 
 class MainFragment : Fragment() {
 
@@ -176,8 +161,9 @@ class MainFragment : Fragment() {
 
 
         }
-
-
+        val childFragment: Fragment = ChartFragment()
+        val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
+        transaction.replace(R.id.forChart, childFragment).commit()
         return view
     }
 
