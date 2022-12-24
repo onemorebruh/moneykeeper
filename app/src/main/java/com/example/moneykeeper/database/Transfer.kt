@@ -23,9 +23,9 @@ import androidx.room.PrimaryKey
 data class Transfer(
     @PrimaryKey(autoGenerate = true) val uid: Int,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "value") val value: String,
+    @ColumnInfo(name = "value") var value: String,
     @ColumnInfo(name = "category") val category: String?,
     @ColumnInfo(name= "income") val income: String?,
     @ColumnInfo(name = "category_color") val categoryColor: Int,// set color from categories
-    @ColumnInfo(name = "category_icon") val categoryIcon: ByteArray
+    @ColumnInfo(name = "category_icon") val categoryIcon: ByteArray,
 )

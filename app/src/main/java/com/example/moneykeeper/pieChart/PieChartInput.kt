@@ -42,7 +42,7 @@ import kotlin.math.atan2
 data class PieChartInput(
     val color: Color,
     val value: Int,
-    val description: String,//TODO rename to expense
+    val expenses: String,//TODO change to icon
     val isTapped: Boolean = false
 )
 
@@ -104,9 +104,9 @@ fun PieChart(
 
                                     currAngle += pieChartInput.value * anglePerValue
                                     if(tapAngleInDegrees<currAngle){
-                                        val description = pieChartInput.description
+                                        val description = pieChartInput.expenses
                                         inputList = inputList.map {
-                                            if(description == it.description){
+                                            if(description == it.expenses){
                                                 it.copy(isTapped = !it.isTapped)
                                             }else{
                                                 it.copy(isTapped = false)
@@ -169,7 +169,7 @@ fun PieChart(
                                 Paint().apply {
                                     textSize = 13.sp.toPx()
                                     textAlign = Paint.Align.CENTER
-                                    color = white.toArgb()
+                                    color = (0xFFF3F3F3).toInt()
                                 }
                             )
                         }
@@ -181,7 +181,7 @@ fun PieChart(
                         drawRoundRect(
                             topLeft = circleCenter,
                             size = Size(12f,radius*1.2f),
-                            color = gray,
+                            color = Color(0xFF3F3F3F),
                             cornerRadius = CornerRadius(15f,15f)
                         )
                     }
@@ -189,20 +189,20 @@ fun PieChart(
                         drawRoundRect(
                             topLeft = circleCenter,
                             size = Size(12f,radius*1.2f),
-                            color = gray,
+                            color = Color(0xFF3F3F3F),
                             cornerRadius = CornerRadius(15f,15f)
                         )
                     }
                     rotate(rotateAngle){
                         drawContext.canvas.nativeCanvas.apply {//TODO replace with icon
                             drawText(
-                                "${pieChartInput.description}: ${pieChartInput.value}",
+                                "${pieChartInput.expenses}: ${pieChartInput.value}",
                                 circleCenter.x,
                                 circleCenter.y + radius*1.3f*factor,
                                 Paint().apply {
                                     textSize = 22.sp.toPx()
                                     textAlign = Paint.Align.CENTER
-                                    color = white.toArgb()
+                                    color = Color(0xFF000000).toArgb()
                                     isFakeBoldText = true
                                 }
                             )
@@ -216,7 +216,7 @@ fun PieChart(
                     drawRoundRect(
                         topLeft = circleCenter,
                         size = Size(12f,radius*1.2f),
-                        color = gray,
+                        color = Color(0xFF3F3F3F),
                         cornerRadius = CornerRadius(15f,15f)
                     )
                 }
@@ -227,14 +227,14 @@ fun PieChart(
                     circleCenter.y,
                     innerRadius,
                     Paint().apply {
-                        color = white.copy(alpha = 0.6f).toArgb()
-                        setShadowLayer(10f,0f,0f, gray.toArgb())
+                        color = Color(0xFFF3F3F3).copy(alpha = 0.6f).toArgb()
+                        setShadowLayer(10f,0f,0f, Color(0xFF3F3F3F).toArgb())
                     }
                 )
             }
 
             drawCircle(
-                color = white.copy(0.2f),
+                color = Color(0xFFF3F3F3).copy(0.2f),
                 radius = innerRadius+transparentWidth/2f
             )
 
@@ -253,15 +253,15 @@ fun PieChart(
 }
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Color(0xFFBB86FC),
+    primaryVariant = Color(0xFF3700B3),
+    secondary = Color(0xFF03DAC5)
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Color(0xFF6200EE),
+    primaryVariant =  Color(0xFF3700B3),
+    secondary =  Color(0xFF03DAC5)
 )
 
 val Typography = Typography(

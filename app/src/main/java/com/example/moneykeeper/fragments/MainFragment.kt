@@ -3,10 +3,12 @@ package com.example.moneykeeper.fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.compose.ui.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -14,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.moneykeeper.R
 import com.example.moneykeeper.database.*
 import com.example.moneykeeper.pieChart.ChartFragment
+import com.example.moneykeeper.pieChart.PieChartInput
 
 class MainFragment : Fragment() {
 
@@ -42,6 +45,50 @@ class MainFragment : Fragment() {
         myIncomeViewModel = ViewModelProvider(this)[IncomeViewModel::class.java]
 
 
+        val listTransfers = mutableListOf<Transfer>()
+        val listOfCategoryUIDS = mutableListOf<String>()
+
+        myTransferViewModel.readAllData.observe(viewLifecycleOwner,
+        Observer<List<Transfer?>> { transfers ->
+            for (transfer in transfers){
+                //gather them by expenses
+                if (transfer?.category != null) {
+                    listTransfers.add(transfer)
+                    listOfCategoryUIDS.add(transfer.category)
+                }
+                //sort
+                val (sortedTransfers, sortedUIDS) = sortTransfersByCategories(listTransfers, listOfCategoryUIDS)
+                // gather them to values of chart
+                var i = 0
+                while (i < sortedUIDS.size){
+                    Log.d("while", "$i")
+                    if ((i + 1) != sortedUIDS.size){
+                        Log.d("i + 1 != sorted", "true")
+                        if (i != sortedUIDS.size && sortedUIDS[i] != sortedUIDS[i + 1]){
+                            i += 1
+                            Log.d("while", "i = $i, ${sortedUIDS[i]} false")
+                        }else if (i != sortedTransfers.size && (i + 1) != sortedTransfers.size){
+                            Log.d("iteration", "${sortedUIDS.size}, $i, ${sortedUIDS[i]} true")
+                            sortedTransfers[i].value = (sortedTransfers[i].value.toInt() + sortedTransfers[i + 1].value.toInt()).toString()
+                            sortedTransfers.removeAt(i + 1)
+                        }else {
+                            break
+                        }
+                    }else{
+                        break
+                    }
+                }
+                //we get sortedTransfers ready to be PieCartInput
+                categories.removeAll(categories)
+                sortedTransfers.forEach {
+                    categories.add(PieChartInput(
+                        color = Color(it.categoryColor),
+                        value = it.value.toInt(),
+                        expenses = it.category!!
+                    ))
+                }
+            }
+        })
         expenseButton!!.setOnClickListener {
             val categoryNames: MutableList<String> = mutableListOf<String>()
             val categories: MutableList<Category> = mutableListOf<Category>()
@@ -84,7 +131,7 @@ class MainFragment : Fragment() {
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    //do nothing
+                    Toast.makeText(context, "please add expenses firstly", Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -143,7 +190,7 @@ class MainFragment : Fragment() {
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    //do nothing
+                    Toast.makeText(context, "please add incomes firstly", Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -214,6 +261,51 @@ class MainFragment : Fragment() {
                 Toast.makeText(requireContext(), "error: some of fields are empty", Toast.LENGTH_LONG).show()
             }
     }
+
+   companion object {// make additions when adds expenses
+       var categories = mutableListOf<PieChartInput>(PieChartInput(
+       color = Color(0xFFff6d00),
+       value = 100,
+       expenses = "please add data"
+       ))
+
+       fun sortTransfersByCategories(transfers: MutableList<Transfer>, categoriesOfTransfers: MutableList<String>): Pair<MutableList<Transfer>, MutableList<String>> {
+           // make list of int
+           var categoriesUIDS = mutableListOf<Int>()
+           var sortedTransfers = mutableListOf<Transfer>()
+           categoriesOfTransfers.forEach {
+               categoriesUIDS.add(it.toInt())
+           }
+           //sort uids and transfers
+           var i = 0
+           while (i < transfers.size){
+               if((i + 1) != transfers.size){
+                   if (categoriesUIDS[i] > categoriesUIDS[i + 1]){
+                       categoriesUIDS[i] = categoriesUIDS[i + 1].also { categoriesUIDS[i + 1] = categoriesUIDS[i] }
+                       transfers[i] = transfers[i + 1].also { transfers[i + 1] = transfers[i] }
+                   } else {
+                       sortedTransfers.add(transfers[i])
+                       i += 1
+                   }
+               }else {
+                   break
+               }
+           }
+           if (sortedTransfers.size != transfers.size){
+               sortedTransfers.add(transfers[transfers.size - 1])
+           }
+           if (sortedTransfers.size == 0){
+               sortedTransfers = transfers
+           }
+           categoriesOfTransfers.removeAll(categoriesOfTransfers)
+           categoriesUIDS.forEach {
+               categoriesOfTransfers.add(it.toString())
+           }
+               return Pair(sortedTransfers, categoriesOfTransfers)
+       }
+   }
 }
+
+
 
 

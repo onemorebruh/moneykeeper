@@ -249,8 +249,7 @@ class AddIncomeFragment : Fragment() {
         return view
     }
 
-    private fun setColor(color: Int) {// i thought it would do more things
-        //TODO rewrite without setColor function
+    private fun setColor(color: Int) {
         //return color as Int
         selectedColor!!.setBackgroundColor(color)
     }
@@ -275,7 +274,7 @@ class AddIncomeFragment : Fragment() {
         return (!(TextUtils.isEmpty(name)) && color != 0)
     }
 
-    private fun convertSVGToByteArray(resId: Int): ByteArray {//TODO check for size change(svg it converted to image here)
+    private fun convertSVGToByteArray(resId: Int): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val drawable: Drawable? = ContextCompat.getDrawable(requireContext(), resId)
         drawable?.let {

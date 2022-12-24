@@ -2,26 +2,25 @@ package com.example.moneykeeper.fragments
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.moneykeeper.R
 import com.example.moneykeeper.database.CategoriesViewModel
 import com.example.moneykeeper.database.Category
+import com.example.moneykeeper.pieChart.PieChartInput
 import java.io.ByteArrayOutputStream
 
 
@@ -30,7 +29,7 @@ class addCategoryFragment : Fragment() {
 
     private lateinit var myCategoriesViewModel: CategoriesViewModel
     private var selectedColor: View? = null
-    private var selectedColorInt: Int = 0
+    private var selectedColorInt: androidx.compose.ui.graphics.Color = Color(0xFF000000)
     private var selectedIcon: View? = null
     private var selectedIconValue: ByteArray? = null
 
@@ -73,83 +72,83 @@ class addCategoryFragment : Fragment() {
             val deepOrange700 = dialogView.findViewById<View>(R.id.deepOrange700)
             //set listeners
             red700.setOnClickListener {
-                setColor(Color.parseColor("#d50000"))
-                selectedColorInt = Color.parseColor("#d50000")
+                setColor(android.graphics.Color.parseColor("#d50000"))
+                selectedColorInt = Color(0xFFd50000)
                 alertDialog.dismiss()
             }
             pink700.setOnClickListener {
-                setColor(Color.parseColor("#c51162"))
-                selectedColorInt = Color.parseColor("#c51162")
+                setColor(android.graphics.Color.parseColor("#c51162"))
+                selectedColorInt = Color(0xFFc51162)
                 alertDialog.dismiss()
             }
             purple700.setOnClickListener {
-                setColor(Color.parseColor("#aa00ff"))
-                selectedColorInt = Color.parseColor("#aa00ff")
+                setColor(android.graphics.Color.parseColor("#aa00ff"))
+                selectedColorInt = Color(0xFFaa00ff)
                 alertDialog.dismiss()
             }
             deepPurple700.setOnClickListener {
-                setColor(Color.parseColor("#6200ea"))
-                selectedColorInt = Color.parseColor("#6200ea")
+                setColor(android.graphics.Color.parseColor("#6200ea"))
+                selectedColorInt = Color(0xFF6200ea)
                 alertDialog.dismiss()
             }
             indigo700.setOnClickListener {
-                setColor(Color.parseColor("#304ffe"))
-                selectedColorInt = Color.parseColor("#304ffe")
+                setColor(android.graphics.Color.parseColor("#304ffe"))
+                selectedColorInt = Color(0xFF304ffe)
                 alertDialog.dismiss()
             }
             blue700.setOnClickListener {
-                setColor(Color.parseColor("#2962ff"))
-                selectedColorInt = Color.parseColor("#2962ff")
+                setColor(android.graphics.Color.parseColor("#2962ff"))
+                selectedColorInt = Color(0xFF2962ff)
                 alertDialog.dismiss()
             }
             lightBlue700.setOnClickListener {
-                setColor(Color.parseColor("#0091ea"))
-                selectedColorInt = Color.parseColor("#0091ea")
+                setColor(android.graphics.Color.parseColor("#0091ea"))
+                selectedColorInt = Color(0xFF0091ea)
                 alertDialog.dismiss()
             }
             cyan700.setOnClickListener {
-                setColor(Color.parseColor("#00b8d4"))
-                selectedColorInt = Color.parseColor("#00b8d4")
+                setColor(android.graphics.Color.parseColor("#00b8d4"))
+                selectedColorInt = Color(0xFF00b8d4)
                 alertDialog.dismiss()
             }
             teal700.setOnClickListener {
-                setColor(Color.parseColor("#00bfa5"))
-                selectedColorInt = Color.parseColor("#00bfa5")
+                setColor(android.graphics.Color.parseColor("#00bfa5"))
+                selectedColorInt = Color(0xFF00bfa5)
                 alertDialog.dismiss()
             }
             green700.setOnClickListener {
-                setColor(Color.parseColor("#00c853"))
-                selectedColorInt = Color.parseColor("#00c853")
+                setColor(android.graphics.Color.parseColor("#00c853"))
+                selectedColorInt = Color(0xFF00c853)
                 alertDialog.dismiss()
             }
             lightGreen700.setOnClickListener {
-                setColor(Color.parseColor("#64dd17"))
-                selectedColorInt = Color.parseColor("#64dd17")
+                setColor(android.graphics.Color.parseColor("#64dd17"))
+                selectedColorInt = Color(0xFF64dd17)
                 alertDialog.dismiss()
             }
             lime700.setOnClickListener {
-                setColor(Color.parseColor("#aeea00"))
-                selectedColorInt = Color.parseColor("#aeea00")
+                setColor(android.graphics.Color.parseColor("#aeea00"))
+                selectedColorInt = Color(0xFFaeea00)
                 alertDialog.dismiss()
             }
             yellow700.setOnClickListener {
-                setColor(Color.parseColor("#ffd600"))
-                selectedColorInt = Color.parseColor("#ffd600")
+                setColor(android.graphics.Color.parseColor("#ffd600"))
+                selectedColorInt = Color(0xFFffd600)
                 alertDialog.dismiss()
             }
             amber700.setOnClickListener {
-                setColor(Color.parseColor("#ffab00"))
-                selectedColorInt = Color.parseColor("#ffab00")
+                setColor(android.graphics.Color.parseColor("#ffab00"))
+                selectedColorInt = Color(0xFFffab00)
                 alertDialog.dismiss()
             }
             orange700.setOnClickListener {
-                setColor(Color.parseColor("#ff6d00"))
-                selectedColorInt = Color.parseColor("#ff6d00")
+                setColor(android.graphics.Color.parseColor("#ff6d00"))
+                selectedColorInt = Color(0xFFff6d00)
                 alertDialog.dismiss()
             }
             deepOrange700.setOnClickListener {
-                setColor(Color.parseColor("#dd2c00"))
-                selectedColorInt = Color.parseColor("#dd2c00")
+                setColor(android.graphics.Color.parseColor("#dd2c00"))
+                selectedColorInt = Color(0xFFdd2c00)
                 alertDialog.dismiss()
             }
         }
@@ -244,10 +243,16 @@ class addCategoryFragment : Fragment() {
             if (selectedIconValue != null) {
                 insertIntoCategories(
                     categoryName.text.toString(),
-                    selectedColorInt,
+                    selectedColorInt.toArgb(),
                     selectedIconValue!!
                 )
                 findNavController().navigate(R.id.action_addCategoryFragment_to_categoriesFragment)
+//                //TODO add category to MainFragment.categories
+//                MainFragment.categories[MainFragment.categories.size] = PieChartInput(
+//                    color = selectedColorInt,
+//                    value = 0,
+//                    expenses = "test"//TODO change it to icon,
+//                )
             }
             else{
                 Toast.makeText(context, "please choose icon", Toast.LENGTH_LONG).show()
@@ -285,7 +290,7 @@ class addCategoryFragment : Fragment() {
         return (!(TextUtils.isEmpty(name)) && color != 0 && icon != null)
     }
 
-    private fun convertSVGToByteArray(resId: Int): ByteArray {//TODO check for size change(svg it converted to image here)
+    private fun convertSVGToByteArray(resId: Int): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val drawable: Drawable? = ContextCompat.getDrawable(requireContext(), resId)
         drawable?.let {
