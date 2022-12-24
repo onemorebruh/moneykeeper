@@ -247,12 +247,6 @@ class addCategoryFragment : Fragment() {
                     selectedIconValue!!
                 )
                 findNavController().navigate(R.id.action_addCategoryFragment_to_categoriesFragment)
-//                //TODO add category to MainFragment.categories
-//                MainFragment.categories[MainFragment.categories.size] = PieChartInput(
-//                    color = selectedColorInt,
-//                    value = 0,
-//                    expenses = "test"//TODO change it to icon,
-//                )
             }
             else{
                 Toast.makeText(context, "please choose icon", Toast.LENGTH_LONG).show()

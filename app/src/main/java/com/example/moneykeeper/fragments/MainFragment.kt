@@ -45,11 +45,12 @@ class MainFragment : Fragment() {
         myIncomeViewModel = ViewModelProvider(this)[IncomeViewModel::class.java]
 
 
-        val listTransfers = mutableListOf<Transfer>()
-        val listOfCategoryUIDS = mutableListOf<String>()
+
 
         myTransferViewModel.readAllData.observe(viewLifecycleOwner,
         Observer<List<Transfer?>> { transfers ->
+            val listTransfers = mutableListOf<Transfer>()
+            val listOfCategoryUIDS = mutableListOf<String>()
             for (transfer in transfers){
                 //gather them by expenses
                 if (transfer?.category != null) {
@@ -60,32 +61,36 @@ class MainFragment : Fragment() {
                 val (sortedTransfers, sortedUIDS) = sortTransfersByCategories(listTransfers, listOfCategoryUIDS)
                 // gather them to values of chart
                 var i = 0
-                while (i < sortedUIDS.size){
+                var v = 0
+                while ((i + 1) < sortedUIDS.size){
+                    Log.d("v","$v")
+                    v += 1
                     Log.d("while", "$i")
-                    if ((i + 1) != sortedUIDS.size){
-                        Log.d("i + 1 != sorted", "true")
-                        if (i != sortedUIDS.size && sortedUIDS[i] != sortedUIDS[i + 1]){
-                            i += 1
-                            Log.d("while", "i = $i, ${sortedUIDS[i]} false")
-                        }else if (i != sortedTransfers.size && (i + 1) != sortedTransfers.size){
-                            Log.d("iteration", "${sortedUIDS.size}, $i, ${sortedUIDS[i]} true")
-                            sortedTransfers[i].value = (sortedTransfers[i].value.toInt() + sortedTransfers[i + 1].value.toInt()).toString()
-                            sortedTransfers.removeAt(i + 1)
-                        }else {
-                            break
-                        }
-                    }else{
-                        break
+                    Log.d("size", "${sortedUIDS.size}, ${sortedTransfers.size}")
+                    if(sortedUIDS[i] == sortedUIDS[ i + 1]){
+                        sortedTransfers[i].value = (sortedTransfers[i].value.toInt() + sortedTransfers[i + 1].value.toInt()).toString()
+                        sortedTransfers.removeAt(i + 1)
+                        sortedUIDS.removeAt(i + 1)
+                    } else{
+                        i += 1
                     }
                 }
-                //we get sortedTransfers ready to be PieCartInput
+                //we get sortedTransfers ready to be PieCartInput TODO FIX BUG
+                                                                // BUG: data in chart duplicates each time you change fragment
+                                                                // BUG: all values gathers in one category after adding to already existed category
                 categories.removeAll(categories)
+//                listOfCategoryUIDS.removeAll(listOfCategoryUIDS)
+//                listTransfers.removeAll(listTransfers)
                 sortedTransfers.forEach {
                     categories.add(PieChartInput(
                         color = Color(it.categoryColor),
                         value = it.value.toInt(),
-                        expenses = it.category!!
+                        expenses = it.category!!,
+                        description = it.name
                     ))
+                }
+                categories.forEach {
+                    Log.d("category", "$it")
                 }
             }
         })
@@ -264,9 +269,10 @@ class MainFragment : Fragment() {
 
    companion object {// make additions when adds expenses
        var categories = mutableListOf<PieChartInput>(PieChartInput(
-       color = Color(0xFFff6d00),
-       value = 100,
-       expenses = "please add data"
+           color = Color(0xFFff6d00),
+           value = 100,
+           expenses = "please add data",
+           description = "i should not be here"
        ))
 
        fun sortTransfersByCategories(transfers: MutableList<Transfer>, categoriesOfTransfers: MutableList<String>): Pair<MutableList<Transfer>, MutableList<String>> {
@@ -279,7 +285,7 @@ class MainFragment : Fragment() {
            //sort uids and transfers
            var i = 0
            while (i < transfers.size){
-               if((i + 1) != transfers.size){
+               if((i + 1) != categoriesUIDS.size){
                    if (categoriesUIDS[i] > categoriesUIDS[i + 1]){
                        categoriesUIDS[i] = categoriesUIDS[i + 1].also { categoriesUIDS[i + 1] = categoriesUIDS[i] }
                        transfers[i] = transfers[i + 1].also { transfers[i + 1] = transfers[i] }
@@ -300,6 +306,7 @@ class MainFragment : Fragment() {
            categoriesOfTransfers.removeAll(categoriesOfTransfers)
            categoriesUIDS.forEach {
                categoriesOfTransfers.add(it.toString())
+
            }
                return Pair(sortedTransfers, categoriesOfTransfers)
        }
