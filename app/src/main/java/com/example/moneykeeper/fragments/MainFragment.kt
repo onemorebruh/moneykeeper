@@ -81,9 +81,8 @@ class MainFragment : Fragment() {
                     PieChartInput(
                         color = it.color,
                         value = it.value,
-                        expenses = it.category,
+                        icon = it.icon,
                         isTapped = false,
-                        description = it.name
                     ))
             }
         })
@@ -264,8 +263,7 @@ class MainFragment : Fragment() {
        var categories = mutableListOf<PieChartInput>(PieChartInput(
            color = Color(0xFFff6d00),
            value = 100,
-           expenses = 0,
-           description = "i should not be here"
+           icon = ByteArray(0),
        ))
 
        fun sortTransfersByCategories(transfers: MutableList<Transfer>, categoriesOfTransfers: MutableList<String>): Pair<MutableList<Transfer>, MutableList<String>> {

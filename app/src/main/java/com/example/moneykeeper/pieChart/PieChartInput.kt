@@ -1,6 +1,7 @@
 package com.example.moneykeeper.pieChart
 
 
+import android.graphics.BitmapFactory
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -19,10 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -35,16 +33,17 @@ import com.example.moneykeeper.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.semantics.Role.Companion.Image
 import kotlin.math.PI
 import kotlin.math.atan2
 
 data class PieChartInput(
     val color: Color,
     val value: Int,
-    val expenses: Int,//TODO change to icon
+    val icon: ByteArray,
     val isTapped: Boolean = false,
-    val description: String//TODO delete when fix bug
 )
 
 @Composable
@@ -105,9 +104,9 @@ fun PieChart(
 
                                     currAngle += pieChartInput.value * anglePerValue
                                     if(tapAngleInDegrees<currAngle){
-                                        val description = pieChartInput.expenses
+                                        val description = pieChartInput.icon
                                         inputList = inputList.map {
-                                            if(description == it.expenses){
+                                            if(description == it.icon){
                                                 it.copy(isTapped = !it.isTapped)
                                             }else{
                                                 it.copy(isTapped = false)
@@ -196,8 +195,9 @@ fun PieChart(
                     }
                     rotate(rotateAngle){
                         drawContext.canvas.nativeCanvas.apply {//TODO replace with icon
-                            drawText(
-                                "${pieChartInput.expenses}: ${pieChartInput.value}",
+                            val bitmap = BitmapFactory.decodeByteArray(pieChartInput.icon, 0, pieChartInput.icon.size);
+                            drawBitmap(
+                                bitmap,
                                 circleCenter.x,
                                 circleCenter.y + radius*1.3f*factor,
                                 Paint().apply {
@@ -294,3 +294,4 @@ fun PieChartYTTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
         content = content
     )
 }
+
