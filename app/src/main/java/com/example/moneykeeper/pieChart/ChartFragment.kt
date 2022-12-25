@@ -1,7 +1,10 @@
 package com.example.moneykeeper.pieChart
 
+import android.app.Activity
+import android.graphics.Point
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.Fragment
 import com.example.moneykeeper.*
 import com.example.moneykeeper.fragments.MainFragment
 
@@ -20,6 +24,10 @@ class ChartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val metrics = DisplayMetrics()
+        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(metrics)
+        val width = metrics.widthPixels
+        Log.d("width", "$width")
         // Inflate the layout for this fragment
         return ComposeView(requireContext()).apply {
             setContent {
@@ -35,11 +43,13 @@ class ChartFragment : Fragment() {
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            PieChart(
+                            PieChart(//1440/500,
                                 modifier = Modifier
                                     .size(500.dp),
                                 input = MainFragment.categories as MutableList<PieChartInput>,
-                                centerText = ""
+                                centerText = "",
+                                radius = (width/3).toFloat(),
+                                innerRadius = (width/6).toFloat()
                             )
                         }
                     }

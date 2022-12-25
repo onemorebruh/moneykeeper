@@ -1,8 +1,10 @@
 package com.example.moneykeeper.pieChart
 
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Paint
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -132,7 +134,7 @@ fun PieChart(
                 val scale = if(pieChartInput.isTapped) 1.1f else 1.0f
                 val angleToDraw = pieChartInput.value * anglePerValue
                 scale(scale){
-                    drawArc(
+                    drawArc(//do not touch
                         color = pieChartInput.color,
                         startAngle = currentStartAngle,
                         sweepAngle = angleToDraw,
@@ -192,19 +194,23 @@ fun PieChart(
                         )
                     }
                     rotate(rotateAngle){
-                        drawContext.canvas.nativeCanvas.apply {//TODO replace with icon
-                            val bitmap = BitmapFactory.decodeByteArray(pieChartInput.icon, 0, pieChartInput.icon.size)
-                            drawBitmap(
-                                bitmap,
-                                circleCenter.x,
-                                circleCenter.y + radius*1.3f*factor,
-                                Paint().apply {
-                                    textSize = 22.sp.toPx()
-                                    textAlign = Paint.Align.CENTER
-                                    color = Color(0xFF000000).toArgb()
-                                    isFakeBoldText = true
-                                }
-                            )
+                        drawContext.canvas.nativeCanvas.apply {
+                            try {
+                                val bitmap: Bitmap? = BitmapFactory.decodeByteArray(pieChartInput.icon, 0, pieChartInput.icon.size)
+                                drawBitmap(
+                                    bitmap!!,
+                                    circleCenter.x,
+                                    circleCenter.y + radius * 1.3f * factor,
+                                    Paint().apply {
+                                        textSize = 22.sp.toPx()
+                                        textAlign = Paint.Align.CENTER
+                                        color = Color(0xFF000000).toArgb()
+                                        isFakeBoldText = true
+                                    }
+                                )//TODO draw drawRect if theme is dark
+                            } catch (e: NullPointerException){
+                                Log.d("e", "${e.message}")
+                            }
                         }
                     }
                 }
