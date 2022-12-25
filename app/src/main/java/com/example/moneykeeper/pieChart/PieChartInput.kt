@@ -29,13 +29,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moneykeeper.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.semantics.Role.Companion.Image
 import kotlin.math.PI
 import kotlin.math.atan2
 
@@ -106,7 +104,7 @@ fun PieChart(
                                     if(tapAngleInDegrees<currAngle){
                                         val description = pieChartInput.icon
                                         inputList = inputList.map {
-                                            if(description == it.icon){
+                                            if(description.contentEquals(it.icon)){
                                                 it.copy(isTapped = !it.isTapped)
                                             }else{
                                                 it.copy(isTapped = false)
@@ -195,7 +193,7 @@ fun PieChart(
                     }
                     rotate(rotateAngle){
                         drawContext.canvas.nativeCanvas.apply {//TODO replace with icon
-                            val bitmap = BitmapFactory.decodeByteArray(pieChartInput.icon, 0, pieChartInput.icon.size);
+                            val bitmap = BitmapFactory.decodeByteArray(pieChartInput.icon, 0, pieChartInput.icon.size)
                             drawBitmap(
                                 bitmap,
                                 circleCenter.x,

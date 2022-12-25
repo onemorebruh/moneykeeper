@@ -50,41 +50,47 @@ class MainFragment : Fragment() {
 
         myTransferViewModel.readAllData.observe(viewLifecycleOwner,
         Observer<List<Transfer?>> { transfers ->
-            categories.removeAll(categories)
             val pieCartTransfer = mutableListOf<com.example.moneykeeper.pieChart.Transfer>()
-            transfers.forEach{
-                if (it?.category != null) {//filter expenses
-                    pieCartTransfer.add(com.example.moneykeeper.pieChart.Transfer(
-                        uid = it.uid,
-                        name = it.name,
-                        value = abs(it.value.toInt()),
-                        category = it.category.toInt(),
-                        color = Color(it.categoryColor),
-                        icon = it.categoryIcon
-                    ))
+            if (transfers != null){
+
+                transfers.forEach{
+                    if (it?.category != null) {//filter expenses
+                        pieCartTransfer.add(com.example.moneykeeper.pieChart.Transfer(
+                            uid = it.uid,
+                            name = it.name,
+                            value = abs(it.value.toInt()),
+                            category = it.category.toInt(),
+                            color = Color(it.categoryColor),
+                            icon = it.categoryIcon
+                        ))
+                    }
+                }
+                if (pieCartTransfer != emptyList<com.example.moneykeeper.pieChart.Transfer>()){
+                    categories.removeAll(categories)
+                }
+                val sortedTransfers = pieCartTransfer.sortedWith(compareBy { it.category })
+                var i = 0
+                val mutableSorted = sortedTransfers.toMutableList()
+                while ((i + 1) < mutableSorted.size ){
+                    if (mutableSorted[i].category == mutableSorted[i + 1].category){
+                        mutableSorted[i].value += mutableSorted[i + 1].value
+                        mutableSorted.removeAt(i + 1)
+                    }else{
+                        i += 1
+                    }
+                }
+                mutableSorted.forEach {
+                    Log.d("transfers", "$it")
+                    categories.add(
+                        PieChartInput(
+                            color = it.color,
+                            value = it.value,
+                            icon = it.icon,
+                            isTapped = false,
+                        ))
                 }
             }
-            val sortedTransfers = pieCartTransfer.sortedWith(compareBy { it.category })
-            var i = 0
-            var mutableSorted = sortedTransfers.toMutableList()
-            while ((i + 1) < mutableSorted.size ){
-                if (mutableSorted[i].category == mutableSorted[i + 1].category){
-                    mutableSorted[i].value += mutableSorted[i + 1].value
-                    mutableSorted.removeAt(i + 1)
-                }else{
-                    i += 1
-                }
-            }
-            mutableSorted.forEach {
-                Log.d("transfers", "$it")
-                categories.add(
-                    PieChartInput(
-                        color = it.color,
-                        value = it.value,
-                        icon = it.icon,
-                        isTapped = false,
-                    ))
-            }
+
         })
         expenseButton!!.setOnClickListener {
             val categoryNames: MutableList<String> = mutableListOf<String>()
@@ -266,41 +272,7 @@ class MainFragment : Fragment() {
            icon = ByteArray(0),
        ))
 
-       fun sortTransfersByCategories(transfers: MutableList<Transfer>, categoriesOfTransfers: MutableList<String>): Pair<MutableList<Transfer>, MutableList<String>> {
-           // make list of int
-           var categoriesUIDS = mutableListOf<Int>()
-           var sortedTransfers = mutableListOf<Transfer>()
-           categoriesOfTransfers.forEach {
-               categoriesUIDS.add(it.toInt())
-           }
-           //sort uids and transfers
-           var i = 0
-           while (i < transfers.size){
-               if((i + 1) != categoriesUIDS.size){
-                   if (categoriesUIDS[i] > categoriesUIDS[i + 1]){
-                       categoriesUIDS[i] = categoriesUIDS[i + 1].also { categoriesUIDS[i + 1] = categoriesUIDS[i] }
-                       transfers[i] = transfers[i + 1].also { transfers[i + 1] = transfers[i] }
-                   } else {
-                       sortedTransfers.add(transfers[i])
-                       i += 1
-                   }
-               }else {
-                   break
-               }
-           }
-           if (sortedTransfers.size != transfers.size){
-               sortedTransfers.add(transfers[transfers.size - 1])
-           }
-           if (sortedTransfers.size == 0){
-               sortedTransfers = transfers
-           }
-           categoriesOfTransfers.removeAll(categoriesOfTransfers)
-           categoriesUIDS.forEach {
-               categoriesOfTransfers.add(it.toString())
 
-           }
-               return Pair(sortedTransfers, categoriesOfTransfers)
-       }
    }
 }
 
