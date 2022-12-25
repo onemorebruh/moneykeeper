@@ -40,6 +40,7 @@ class TransferListAdapter(): RecyclerView.Adapter<TransferListAdapter.TransferLi
         holder.transferName.setTextColor(transfers[position].categoryColor)
         val bitmap = BitmapFactory.decodeByteArray(transfers[position].categoryIcon, 0, transfers[position].categoryIcon.size)
         holder.transferIcon.setImageBitmap(bitmap)
+        holder.transferIcon.setBackgroundColor(0xFFFFFFFF.toInt())
     }
 
     override fun getItemCount(): Int {
